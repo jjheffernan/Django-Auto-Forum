@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'projects',
     'test_page'
 ]
 # List of project specific apps
@@ -59,7 +60,7 @@ ROOT_URLCONF = 'forum_base.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ["forum_base/templates/"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
