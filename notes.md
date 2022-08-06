@@ -36,3 +36,10 @@ Django handles the controller part within it's engine
 ### Completed
 
 
+The model you’ll create will be called Project and will have the following fields:
+
+title will be a short string field to hold the name of your project.
+description will be a larger string field to hold a longer piece of text.
+technology will be a string field, but its contents will be limited to a select number of choices.
+image will be an image field that holds the file path where the image is stored.
+
