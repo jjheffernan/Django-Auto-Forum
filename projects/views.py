@@ -4,6 +4,9 @@ from projects.models import Project
 
 # Create your views here.
 
+
+# --- app.projects --- #
+
 # Index view of a Specific Project
 def project_index(request):
     projects = Project.objects.all()  # SQL query
@@ -13,6 +16,7 @@ def project_index(request):
     return render(request, 'project_index.html', context)
 
 
+# Detailed view of a Specific Project
 def project_detail(request, pk):
     project = Project.objects.get(pk=pk)  # pk is Primary key
     context = {

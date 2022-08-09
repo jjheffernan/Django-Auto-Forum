@@ -30,6 +30,9 @@ see `requirements.txt` for the python dependencies and project dependencies.
 - Private Messages
 - Group Permissions
 - Group Chats
+- Dev Blog
+- Front Page 
+- Add in JS Front End Framework
 - Image host to Cloud
 
 ## Tech Stack (as)
