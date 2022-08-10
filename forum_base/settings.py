@@ -42,6 +42,8 @@ INSTALLED_APPS = [
 ]
 # List of project specific apps
 # test_page. Debugging tool used to stage applications
+# make new app (manage.py) module for Class views of Projects (projects)
+# views and models can be imported via external module
 # more to come
 
 

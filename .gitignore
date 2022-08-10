@@ -10,6 +10,9 @@ __pycache__/
 .idea
 .idea/
 
+# Mac local Dir files
+.DS_Store
+
 # ignore static images within Projects
 /static/img/*
 

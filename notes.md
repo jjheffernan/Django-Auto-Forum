@@ -3,7 +3,7 @@ This is where notes, research links, and things not for the readme live:
 
 ### Research Links
 http://cisyst.com/Documents/Library/Design%20and%20Implementation%20Of%20A%20Web%20Forum.pdf
-
+https://docs.djangoproject.com/en/4.1/topics/class-based-views/intro/
 https://realpython.com/get-started-with-django-1/
 
 An inspirational forum app(s):
