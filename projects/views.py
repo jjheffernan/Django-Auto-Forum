@@ -9,8 +9,10 @@ from projects.models import Project
 
 # Index view of a Specific Project
 def project_index(request):
-    manager_obj = Project.objects # testing objects call method
+    manager_obj = Project.objects  # testing objects call method
     projects = manager_obj.all()  # SQL query
+
+    # define dictionary context
     context = {
         'project': projects
     }  # added as argument to render
@@ -20,6 +22,8 @@ def project_index(request):
 # Detailed view of a Specific Project
 def project_detail(request, pk):
     project = Project.objects.get(pk=pk)  # pk is Primary key
+
+    # define dictionary context
     context = {
         'project': project
     }

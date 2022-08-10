@@ -11,7 +11,8 @@ These are going to be super built out, "build thread" style servers, ideally.
 first access Project.objects. This returns a management object:
 `<django.db.models.manager.Manager object at 0x102b7f280>`
 
-Next, construct a QuerySet via a Manager on the model class. 
+Next, construct a QuerySet via a Manager on the model class (in CLI). After,
+.mutators can be applied such as `.all()` or `.get()`.
 
 QuerySet: Represents a collection of objects from db. It can have 0, 1, or many filters.
 This equates to a SELECT statement, with WHERE and LIMIT abstracted away. Commonly,
