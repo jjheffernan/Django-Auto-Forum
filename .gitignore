@@ -10,6 +10,9 @@ __pycache__/
 .idea
 .idea/
 
+# ignore static images within Projects
+/static/img/*
+
 # Distribution / packaging
 .Python
 build/
