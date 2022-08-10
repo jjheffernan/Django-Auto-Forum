@@ -8,6 +8,10 @@ Install django `python3 -m pip install django`
 Make sure you have a specific version of Python in your virtual environment, 
 see `requirements.txt` for the python dependencies and project dependencies.
 
+### Getting Started
+
+
+
 ## Module List
 - forum_base (basic django install lives here, might be refactored into django_base)
 - projects (this app is to manipulate the projects view.)

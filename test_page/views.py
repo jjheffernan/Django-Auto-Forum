@@ -4,4 +4,4 @@ from django.shortcuts import render
 
 
 def test_page(request):
-    return render(request, 'test_view.html')
+    return render(request, 'test_view.html', {})
