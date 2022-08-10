@@ -6,6 +6,10 @@ http://cisyst.com/Documents/Library/Design%20and%20Implementation%20Of%20A%20Web
 
 https://realpython.com/get-started-with-django-1/
 
+An inspirational forum app(s):
+https://djangopackages.org/grids/g/forum/
+https://spirit-project.com
+
 
 ### What makes a Django App?
 Django apps have separated logic. 
