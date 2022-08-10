@@ -3,12 +3,13 @@
 Django Based Forum with content hosting to cloud, focused around Auto Enthusiasts
 
 ## BEFORE YOU CODE
-Install virtual environment ``
+Install virtual environment `-m venv venv`
 Install django `python3 -m pip install django`
 Make sure you have a specific version of Python in your virtual environment, 
 see `requirements.txt` for the python dependencies and project dependencies.
 
 ### Getting Started
+In terminal within the project root, run `python manage.py runserver`
 
 
 

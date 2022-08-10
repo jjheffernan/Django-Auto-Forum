@@ -9,9 +9,10 @@ from projects.models import Project
 
 # Index view of a Specific Project
 def project_index(request):
-    projects = Project.objects.all()  # SQL query
+    manager_obj = Project.objects # testing objects call method
+    projects = manager_obj.all()  # SQL query
     context = {
-        'projects': projects
+        'project': projects
     }  # added as argument to render
     return render(request, 'project_index.html', context)
 
