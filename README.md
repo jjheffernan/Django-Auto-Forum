@@ -14,11 +14,13 @@ In terminal within the project root, run `python manage.py runserver`
 
 
 ## Module List
+- user_profile (user data is stored here. Groups may be a mix-in of these in the future)
 - forum_base (basic django install lives here, might be refactored into django_base)
 - projects (this app is to manipulate the projects view.)
 - test_page [NOT FOR PRODUCTION] (used for testing and separates redirection  )
+- blog (long format posts that are designed as static, only for announcements and configuring advanced views)
 ### To Do 
-- User app
+- User app (WIP)
 - Forum App
 - Subforum App
 - Post to Forum
@@ -28,7 +30,7 @@ In terminal within the project root, run `python manage.py runserver`
 - Basic Upload File 
 - Change Function Based Views to Class based views
 ### Future Features
-- Profile Page
+- Profile Page (WIP)
 - Private Posts
 - Garage on Profile
 - Groups
