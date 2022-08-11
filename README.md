@@ -26,6 +26,7 @@ In terminal within the project root, run `python manage.py runserver`
 - Comment on Post
 - Interact with Post/Comment
 - Basic Upload File 
+- Change Function Based Views to Class based views
 ### Future Features
 - Profile Page
 - Private Posts
@@ -39,6 +40,8 @@ In terminal within the project root, run `python manage.py runserver`
 - Front Page 
 - Add in JS Front End Framework
 - Image host to Cloud
+- Archive
+- 
 
 ## Tech Stack (as)
 
