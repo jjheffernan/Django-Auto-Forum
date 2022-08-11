@@ -1,6 +1,6 @@
 # user_profile/urls.py
 # django imports
-from django.conf.urls import path
+from django.urls import path
 
 # local app imports
 from user_profile.views import dashboard
