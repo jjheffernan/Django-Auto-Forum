@@ -5,5 +5,5 @@ from django.shortcuts import render
 
 # Create your views here.
 # dashboard view (function based)
-def dashboard(request):
+def dashboard(request, pk):
     return render(request, 'user_profile/dashboard.html')
