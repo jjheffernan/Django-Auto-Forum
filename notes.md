@@ -5,10 +5,20 @@ This is where notes, research links, and things not for the readme live:
 http://cisyst.com/Documents/Library/Design%20and%20Implementation%20Of%20A%20Web%20Forum.pdf
 https://docs.djangoproject.com/en/4.1/topics/class-based-views/intro/
 https://realpython.com/get-started-with-django-1/
+https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Home_page
+https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Generic_views
 
 An inspirational forum app(s):
 https://djangopackages.org/grids/g/forum/
 https://spirit-project.com
+
+Forum apps I would like to emulate:
+https://www.bimmerfest.com/forums/ (best done forum I have seen)
+https://mbworld.org
+https://www.bimmerworld.com (more of a shop, but really great design)
+https://www.evolutionm.net (ehh formatting, but great features)
+
+these above forums serve as visual inspiration.
 
 
 ### What makes a Django App?

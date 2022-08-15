@@ -46,6 +46,7 @@ In terminal within the project root, run `python manage.py runserver`
 - 
 
 ## Tech Stack (as)
+- Django
 
 
 
