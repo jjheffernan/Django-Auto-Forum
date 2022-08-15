@@ -37,3 +37,31 @@ def forum_home(request):
     return render(request, 'forum_home.html', context)
 
 
+# detail view of forums
+def forum_detail(request, slug):
+    post = get_object_or_404(ForumPost, slug=slug)
+
+    # if statements. will turn into def when swapping to CBVs
+    if request.user.is_authenticated:  # checking login
+        author = Author.objects.get(user=request.user)  # getting post author
+
+    # handling comments
+    if 'comment-form' in request.POST:
+        comment = request.POST.get('comment')
+        new_comment, created = ForumComment.objects.get_or_create(user=author, content=comment)
+        post.comments.add(new_comment.id)
+
+    # handling replies
+    if 'reply-form' in request.POST:
+        reply = request.POST.get('reply')
+        comment_id = request.POST.get('comment-id')
+        comment_obj = ForumComment.objects.get(id=comment_id)
+        new_reply, created = Reply.objects.get_or_create(user=author, content=reply)
+
+    context = {
+        'post': post,
+        'title': post.title,
+    }
+    # update_views(request, post)
+
+    return render(request, 'detail.html', context)
