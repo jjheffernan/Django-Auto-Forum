@@ -47,6 +47,7 @@ Django handles the controller part within it's engine
 - finish discussion forum front-end
 - add in loaddata json functionality
 - create data management jupyter notebook
+- Add Follow/Unfollow of users
 ### In Progress
 - create backend for discussion forums
 - forum views 
