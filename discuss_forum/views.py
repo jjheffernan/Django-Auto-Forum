@@ -9,6 +9,7 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 # local namespace imports
 from discuss_forum.models import Author, ForumCategory, ForumPost, ForumComment, Reply
 from blog.models import Category
+from forms import *
 
 # Create your views here.
 
@@ -65,3 +66,60 @@ def forum_detail(request, slug):
     # update_views(request, post)
 
     return render(request, 'detail.html', context)
+
+
+def posts(request, slug):
+
+    category = get_object_or_404(Category, slug=slug)
+    posts = ForumPost.objects.filter(approved=True, categories=category)
+    paginator = Paginator(posts, 5)
+    page = request.GET.get("page")
+
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+
+    context = {
+        'posts': posts,
+        'forum': category,
+        # 'title': ,
+    }
+
+    return render(request, 'posts.html', context)
+
+
+@login_required
+def create_post(request):
+    context = {}
+    form = PostForm(request.POST or None)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            print('\n\n its valid')
+            author = Author.objects.get(user=request.user)
+            new_post = form.save(commit=False)
+            new_post.user = author
+            new_post.save()
+            form.save_m2m()
+
+            return redirect('home')
+    context.update({
+        'form': form,
+        # 'title': 'Create New Post'
+    })
+    return render(request, 'create_post.html', context)
+
+
+def latest_posts(request):
+    posts = ForumPost.objects.all().filter(approved=True)[:10]
+    context = {
+        'posts': posts,
+        # 'title': title,
+    }
+
+    return render(request, 'latest-posts.html', context)
+
+
