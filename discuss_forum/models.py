@@ -66,5 +66,53 @@ class ForumCategory(models.Model):
         return ForumPost.objects.filter(categories=self).count()
 
 
+class ForumPost(models.Model):
+    title = models.CharField(max_length=400)
+    slug = models.SlugField(max_length=500, unique=True, blank=True)
+    user = models.ForeignKey(Author, on_delete=models.CASCADE)
+    # content = HTMLField() #tinymce field
+
+    # categories
+    categories = models.ManyToManyField(ForumCategory)
+    create_date = models.DateTimeField(auto_now_add=True)
+
+    # hit count amount
+    # generic_hit_count = GenericRelation(HitCount)
+
+    # tags
+    # tags = TaggableManager()
+
+    # comments
+    comments = models.ManyToManyField(ForumComment, blank=True)
+
+    # post booleans
+    approved_post = models.BooleanField(default=False)
+    closed = models.BooleanField(default=False)
+    post_state = models.CharField(max_length=40, default='zero')
+
+    def __str__(self):
+        return self.title
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super(ForumPost, self).save(*args, **kwargs)
+
+    def get_url(self):
+        return reverse('detail',
+                       kwargs={
+                           'slug': self.slug,
+                       })
+
+    # -- for forum homepage views --
+    # @property
+    # def num_comments(self):
+    #     # number of comments
+    #     return self.comments.count()
+    #
+    # @property
+    # def last_reply(self):
+    #    # latest reply for view
+    #     return self.comments.latest('date')
 
 

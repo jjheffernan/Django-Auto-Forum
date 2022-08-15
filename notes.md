@@ -44,10 +44,20 @@ Django handles the controller part within it's engine
 - Private Messaging
 
 ### To Do
-
+- finish discussion forum front-end
+- add in loaddata json functionality
+- create data management jupyter notebook
 ### In Progress
-
+- create backend for discussion forums
+- forum views 
+- emails 
+- user profile frontend (bootstrap)
+- user management in Admin page
 ### Completed
+- user profile backend
+- user profile frontend (HTML)
+- Connected Blog and Project views 
+- 
 
 
 The model you’ll create will be called Project and will have the following fields:
