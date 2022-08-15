@@ -127,6 +127,13 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+# email server hosting information. Need to expand upon
+# https://docs.djangoproject.com/en/4.1/ref/settings/#std-setting-EMAIL_HOST
+
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025
+# required for password reset forms
+
 # Redirect urls
 # https://docs.djangoproject.com/en/4.1/ref/settings/#std-setting-LOGIN_REDIRECT_URL
 
