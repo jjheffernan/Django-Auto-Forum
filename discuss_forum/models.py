@@ -66,6 +66,31 @@ class ForumCategory(models.Model):
         return ForumPost.objects.filter(categories=self).count()
 
 
+# -- Forum Post Interaction --
+# reddit style replies to original comments
+class Reply(models.Model):
+    user = models.ForeignKey(Author, on_delete=models.CASCADE)
+    comment_content = models.TextField()
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.comment_content[:100]
+
+    class Meta:
+        verbose_name_plural = 'replies'
+
+
+# Forum Comment on Post
+class ForumComment(models.Model):
+    user = models.ForeignKey(Author, on_delete=models.CASCADE)
+    comment_content = models.TextField()
+    date = models.DateTimeField(auto_now_add=True)
+    replies = models.ManyToManyField(Reply, blank=True)
+
+    def __str__(self):
+        return self.comment_content[:100]
+
+
 class ForumPost(models.Model):
     title = models.CharField(max_length=400)
     slug = models.SlugField(max_length=500, unique=True, blank=True)
