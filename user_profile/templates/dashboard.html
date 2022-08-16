@@ -1,8 +1,9 @@
 <!-- user_profile/templates/dashboard.html -->
 
 {% extends 'base.html' %}
+{% load static %}
 
-{% block content %}
+{% block page_content %}
 Hello, {{ user_profile.username|default:'Guest' }}!
 
 <div>

@@ -3,13 +3,15 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.urls import reverse
+
+# local imports
 from user_profile.forms import CustomUserCreationForm
 
 
 # Create your views here.
 # dashboard view (function based)
-def dashboard(request, pk):
-    return render(request, 'user_profile/dashboard.html')
+def dashboard(request):
+    return render(request, 'dashboard.html')
 
 
 # THIS LENDS ITSELF VERY NICELY TO CBVs
