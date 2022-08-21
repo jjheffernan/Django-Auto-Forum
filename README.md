@@ -10,7 +10,7 @@ see `requirements.txt` for the python dependencies and project dependencies.
 
 ### Getting Started
 In terminal within the project root, run `python manage.py runserver`
-
+See the *docs* folder for some extra documentation on the specifics of the program
 
 
 ## Module List

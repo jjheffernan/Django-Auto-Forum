@@ -12,6 +12,10 @@ An inspirational forum app(s):
 https://djangopackages.org/grids/g/forum/
 https://spirit-project.com
 
+YT channels with helpful content:
+Pretty Printed
+Very Academy
+
 Forum apps I would like to emulate:
 https://www.bimmerfest.com/forums/ (best done forum I have seen)
 https://mbworld.org
