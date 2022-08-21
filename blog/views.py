@@ -1,5 +1,5 @@
 # django imports
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
@@ -10,6 +10,8 @@ from .forms import CommentForm
 
 
 # Create your views here.
+
+# Index View
 class BlogIndexView(ListView):
 
     # declare variables here
@@ -35,6 +37,19 @@ def blog_index(request):
     return render(request, 'blog_index.html', context)
 
 
+# Category View
+class BlogCategoryView(ListView):
+    model = Post
+    template_name = 'blog_category.html'
+    context_object_name = 'posts'
+    # paginate_by = 2
+
+    def get_queryset(self):
+        return Post.objects.filter(blog_category__icontains=self.kwargs.get('category'))
+
+    # may need to add get_context_data
+
+
 def blog_category(request, category):
     # pull from db
     posts = Post.objects.filter(
@@ -50,11 +65,18 @@ def blog_category(request, category):
 
 
 # blog detail view
-class BlogDetailView(DetailView):
+class BlogDetailView(TemplateView):
 
     model = Post
     template_name = "blog_detail.html"
-    context_object_name = "posts"
+    form = CommentForm()
+    context_object_name = 'posts'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # context['posts'] = Post.objects.filter(id=self.kwargs.get('id'))
+        context['posts'] = get_object_or_404(Post, pk=self.kwargs.get('pk'))
+        return context
 
 
 def blog_detail(request, pk):
