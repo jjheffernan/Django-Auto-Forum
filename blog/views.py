@@ -1,14 +1,31 @@
 # django imports
 from django.shortcuts import render
-from .forms import CommentForm
+from django.views.generic.base import TemplateView
+from django.views.generic.detail import DetailView
+from django.views.generic.list import ListView
 
 # local namespace imports
 from blog.models import Post, Comment
+from .forms import CommentForm
 
 
 # Create your views here.
-# function based index view
-# need to abstract to class
+class BlogIndexView(ListView):
+
+    # declare variables here
+    model = Post
+    template_name = "blog_index.html"
+    context_object_name = 'posts'
+
+    # def __str__(self):
+        # this is part of the initialization of a view
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['posts'] = Post.objects.all()
+        return context
+
+
 def blog_index(request):
     posts = Post.objects.all().order_by('-created_on') # by changing to class oriented, this can be separated
     # objects is a bad call
@@ -30,6 +47,14 @@ def blog_category(request, category):
     }
     # return rendered html template
     return render(request, 'blog_category.html', context)
+
+
+# blog detail view
+class BlogDetailView(DetailView):
+
+    model = Post
+    template_name = "blog_detail.html"
+    context_object_name = "posts"
 
 
 def blog_detail(request, pk):
