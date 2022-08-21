@@ -16,6 +16,7 @@ from forms import *
 
 def forum_home(request):
     forums = Category.objects.all()
+    # Maybe try get_list_or_404()
     num_posts = ForumPost.objects.all.count()
     num_users = User.objects.all.count()
     num_categories = forums.count()
