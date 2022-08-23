@@ -6,6 +6,8 @@ http://cisyst.com/Documents/Library/Design%20and%20Implementation%20Of%20A%20Web
 https://docs.djangoproject.com/en/4.1/topics/class-based-views/intro/
 https://realpython.com/get-started-with-django-1/
 https://www.dennisivy.com/post/django-class-based-views/
+https://github.com/CoreyMSchafer/code_snippets/tree/master/Django_Blog
+
 
 An inspirational forum app(s):
 https://djangopackages.org/grids/g/forum/
