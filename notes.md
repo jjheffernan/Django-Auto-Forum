@@ -12,6 +12,7 @@ https://github.com/CoreyMSchafer/code_snippets/tree/master/Django_Blog
 An inspirational forum app(s):
 https://djangopackages.org/grids/g/forum/
 https://spirit-project.com
+https://github.com/vitorfs/bootcamp
 
 
 ### What makes a Django App?
