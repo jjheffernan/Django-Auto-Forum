@@ -22,5 +22,6 @@ urlpatterns = [
     path('projects/', include('projects.urls')),
     path('blog/', include('blog.urls')),
     path('', include('test_page.urls')),
+    # path('profile/', include('user_profile.urls')),
     # path('', include('user_profile.urls')),
 ]

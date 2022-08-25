@@ -7,6 +7,8 @@ https://docs.djangoproject.com/en/4.1/topics/class-based-views/intro/
 https://realpython.com/get-started-with-django-1/
 https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Home_page
 https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Generic_views
+https://www.dennisivy.com/post/django-class-based-views/
+https://github.com/CoreyMSchafer/code_snippets/tree/master/Django_Blog
 
 An inspirational forum app(s):
 https://djangopackages.org/grids/g/forum/
