@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'projects',
     'blog',
+    # 'discuss_forum',
     'test_page',
 ]
 # List of project specific apps
@@ -126,6 +127,22 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
+
+# email server hosting information. Need to expand upon
+# https://docs.djangoproject.com/en/4.1/ref/settings/#std-setting-EMAIL_HOST
+
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025
+# required for password reset forms
+
+# Redirect urls
+# https://docs.djangoproject.com/en/4.1/ref/settings/#std-setting-LOGIN_REDIRECT_URL
+
+# LOGIN
+LOGIN_REDIRECT_URL = 'dashboard/'
+
+# LOGOUT
+LOGOUT_REDIRECT_URL = 'dashboard/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

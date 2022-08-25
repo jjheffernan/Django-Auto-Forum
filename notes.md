@@ -5,14 +5,27 @@ This is where notes, research links, and things not for the readme live:
 http://cisyst.com/Documents/Library/Design%20and%20Implementation%20Of%20A%20Web%20Forum.pdf
 https://docs.djangoproject.com/en/4.1/topics/class-based-views/intro/
 https://realpython.com/get-started-with-django-1/
+https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Home_page
+https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Generic_views
 https://www.dennisivy.com/post/django-class-based-views/
 https://github.com/CoreyMSchafer/code_snippets/tree/master/Django_Blog
-
 
 An inspirational forum app(s):
 https://djangopackages.org/grids/g/forum/
 https://spirit-project.com
 https://github.com/vitorfs/bootcamp
+
+YT channels with helpful content:
+Pretty Printed
+Very Academy
+
+Forum apps I would like to emulate:
+https://www.bimmerfest.com/forums/ (best done forum I have seen)
+https://mbworld.org
+https://www.bimmerworld.com (more of a shop, but really great design)
+https://www.evolutionm.net (ehh formatting, but great features)
+
+these above forums serve as visual inspiration.
 
 
 ### What makes a Django App?
@@ -38,10 +51,21 @@ Django handles the controller part within it's engine
 - Private Messaging
 
 ### To Do
-
+- finish discussion forum front-end
+- add in loaddata json functionality
+- create data management jupyter notebook
+- Add Follow/Unfollow of users
 ### In Progress
-
+- create backend for discussion forums
+- forum views 
+- emails 
+- user profile frontend (bootstrap)
+- user management in Admin page
 ### Completed
+- user profile backend
+- user profile frontend (HTML)
+- Connected Blog and Project views 
+- 
 
 
 The model you’ll create will be called Project and will have the following fields:

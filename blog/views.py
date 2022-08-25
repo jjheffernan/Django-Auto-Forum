@@ -1,12 +1,13 @@
 # django imports
 from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
 # local namespace imports
 from blog.models import Post, Comment
-from .forms import CommentForm
+from blog.forms import CommentForm
 
 
 # Create your views here.
@@ -30,8 +31,12 @@ class BlogIndexView(ListView):
 
 
 def blog_index(request):
-    posts = Post.objects.all().order_by('-created_on') # by changing to class oriented, this can be separated
+    posts = Post.objects.all().order_by('-created_on')  # by changing to class oriented, this can be separated
     # objects is a bad call
+    # alternative data call
+    # data = {
+    #     'posts': Post.objects.all(),
+    # }
     context = {
         'posts': posts,
     }
@@ -95,6 +100,12 @@ class BlogDetailView(DetailView):
 def blog_detail(request, pk):
     # object fetch from Post model, by private key for page
     post = Post.objects.get(pk=pk)
+    # alternative view method
+    # post = get_object_or_404(Post, id=pk)
+    # alternative data method (dict)
+    # data = {
+    #     'post': post,
+    # }
 
     form = CommentForm()
     if request.method == 'POST':
