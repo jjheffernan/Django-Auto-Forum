@@ -1,9 +1,8 @@
 # django imports
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
-from django.views.generic.base import TemplateView
-from django.views.generic.detail import DetailView
-from django.views.generic.list import ListView
+from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
 
 # local namespace imports
 from blog.models import Post, Comment
@@ -30,19 +29,6 @@ class BlogIndexView(ListView):
     #     return context
 
 
-def blog_index(request):
-    posts = Post.objects.all().order_by('-created_on')  # by changing to class oriented, this can be separated
-    # objects is a bad call
-    # alternative data call
-    # data = {
-    #     'posts': Post.objects.all(),
-    # }
-    context = {
-        'posts': posts,
-    }
-    return render(request, 'blog_index.html', context)
-
-
 # Category View
 class BlogCategoryView(ListView):
     model = Post
@@ -59,20 +45,6 @@ class BlogCategoryView(ListView):
     #     context = super().get_context_data(**kwargs)
     #     # context['category'] = get_object_or_404(Post, category=self.kwargs.get('category'))
     #     context['posts'] = get_object_or_404(Post, pk=self.kwargs.get('pk'))
-
-
-def blog_category(request, category):
-    # pull from db
-    posts = Post.objects.filter(
-        categories__name__contains=category
-    ).order_by('-created_on')
-    # define context
-    context = {
-        'category': category,
-        'posts': posts
-    }
-    # return rendered html template
-    return render(request, 'blog_category.html', context)
 
 
 # blog detail view
@@ -97,33 +69,87 @@ class BlogDetailView(DetailView):
         Comment.object.create()
 
 
-def blog_detail(request, pk):
-    # object fetch from Post model, by private key for page
-    post = Post.objects.get(pk=pk)
-    # alternative view method
-    # post = get_object_or_404(Post, id=pk)
-    # alternative data method (dict)
-    # data = {
-    #     'post': post,
-    # }
+# CRUD method classes for Blog Posts
+# Create New Blog Post
+class AddBlog(CreateView):
+    model = Post
+    template_name = 'create_blog.html'
+    fields = '__all__'
+    success_url = reverse_lazy('blog:posts')  # unsure if correct syntax, check docs
 
-    form = CommentForm()
-    if request.method == 'POST':
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment = Comment(
-                author=form.cleaned_data['author'],
-                body=form.cleaned_data['body'],
-                post=post
-            )
 
-    # filter comments by post
-    comments = Comment.objects.filter(post=post)
-    # define context
-    context = {
-        'post': post,
-        'comments': comments,
-        'form': form,
-    }
-    # return rendered html template.
-    return render(request, 'blog_detail.html', context)
+# Edit Existing Blog Post
+class EditBlog(UpdateView):
+    model = Post
+    template_name = 'edit_blog.html'
+    fields = '__all__'
+    pk_url_kwarg = 'pk'
+    success_url = reverse_lazy('blog:posts')
+
+
+# Delete Existing Blog Post
+class DeleteBlog(DeleteView):
+    model = Post
+    template_name = 'delete_blog.html'
+    pk_url_kwarg = 'pk'
+    success_url = reverse_lazy('blog:posts')
+
+
+# legacy function based views
+
+# def blog_index(request):
+#     posts = Post.objects.all().order_by('-created_on')  # by changing to class oriented, this can be separated
+#     # objects is a bad call
+#     # alternative data call
+#     # data = {
+#     #     'posts': Post.objects.all(),
+#     # }
+#     context = {
+#         'posts': posts,
+#     }
+#     return render(request, 'blog_index.html', context)
+
+
+# def blog_category(request, category):
+#     # pull from db
+#     posts = Post.objects.filter(
+#         categories__name__contains=category
+#     ).order_by('-created_on')
+#     # define context
+#     context = {
+#         'category': category,
+#         'posts': posts
+#     }
+#     # return rendered html template
+#     return render(request, 'blog_category.html', context)
+
+# def blog_detail(request, pk):
+#     # object fetch from Post model, by private key for page
+#     post = Post.objects.get(pk=pk)
+#     # alternative view method
+#     # post = get_object_or_404(Post, id=pk)
+#     # alternative data method (dict)
+#     # data = {
+#     #     'post': post,
+#     # }
+#
+#     form = CommentForm()
+#     if request.method == 'POST':
+#         form = CommentForm(request.POST)
+#         if form.is_valid():
+#             comment = Comment(
+#                 author=form.cleaned_data['author'],
+#                 body=form.cleaned_data['body'],
+#                 post=post
+#             )
+#
+#     # filter comments by post
+#     comments = Comment.objects.filter(post=post)
+#     # define context
+#     context = {
+#         'post': post,
+#         'comments': comments,
+#         'form': form,
+#     }
+#     # return rendered html template.
+#     return render(request, 'blog_detail.html', context)
