@@ -24,10 +24,10 @@ class BlogIndexView(ListView):
     #     # this is part of the initialization of a view
     #     return self.template_name
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['posts'] = Post.objects.all()
-        return context
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['posts'] = Post.objects.all()
+    #     return context
 
 
 def blog_index(request):
@@ -81,7 +81,7 @@ class BlogDetailView(DetailView):
     model = Post
     template_name = "blog_detail.html"
     form = CommentForm()
-    context_object_name = 'posts'
+    context_object_name = 'post'
     # pk_url_kwarg = 'custom_pk'
 
     def __str__(self):
