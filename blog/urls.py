@@ -8,10 +8,15 @@ from django.urls import path
 from blog import views
 
 urlpatterns = [
-    # path('', views.blog_index, name='blog_index'),
-    path('', views.BlogIndexView.as_view(), name='blog_index'),
-    # path('<int:pk>/', views.blog_detail, name='blog_detail'),
+    path('index/', views.BlogIndexView.as_view(), name='blog_index'),
     path('<int:pk>/', views.BlogDetailView.as_view(), name='blog_detail'),
-    # path('<category>/', views.blog_category, name='blog_category'),
-    path('<category>/', views.BlogCategoryView.as_view(), name='blog_category'),
+    path('<category>/', views.BlogCategoryView.as_view(), name='blog_category')
+    # path('create/', views.AddBlog.as_view(), name='create_blog'),
+    # path('edit/<int:pk>/', views.EditBlog.as_view(), name='edit_blog'),
+    # path('delete/<int:pk>/', views.DeleteBlog.as_view(), name='delete_blog'),
 ]
+
+# To use the function based legacy views:
+# path('', views.blog_index, name='blog_index'),
+# path('<int:pk>/', views.blog_detail, name='blog_detail'),
+# path('<category>/', views.blog_category, name='blog_category'),
