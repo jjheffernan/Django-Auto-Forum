@@ -9,6 +9,27 @@ from django.core.exceptions import ValidationError
 # local namespace imports
 from user_profile.models import Profile
 
+# some links to relevant docs for what is null value on init and what is not
+# https://docs.djangoproject.com/en/3.0/topics/forms/
+# https://docs.djangoproject.com/en/3.0/topics/auth/default/
+
+
+class PwdResetConfirmForm(SetPasswordForm):
+    new_password1 = forms.CharField(
+        label='New password', widget=forms.PasswordInput(
+            attrs={'class': 'form-control mb-3',
+                   'placeholder': 'New Password',
+                   'id': 'form-newpass'}
+        )
+    )
+    new_password2 = forms.CharField(
+        label='New password', widget=forms.PasswordInput(
+            attrs={'class': 'form-control mb-3',
+                   'placeholder': 'Confirm Password',
+                   'id': 'form-newpass2'}
+        )
+    )
+
 
 class CustomUserCreationForm(UserCreationForm):
     # This will eventually will be for admin creation and management of user profiles
