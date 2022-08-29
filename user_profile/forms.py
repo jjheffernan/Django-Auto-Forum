@@ -65,6 +65,25 @@ class PwdChangeForm(PasswordChangeForm):
                    'id': 'form-newpass2'}))
 
 
+# Reset password form
+class PwdResetForm(PasswordResetForm):
+
+    email = forms.EmailField(max_length=254, widget=forms.TextInput(
+        attrs={'class': 'form-control mb-3',
+               'placeholder': 'Email',
+               'id': 'form-email'}
+    ))
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        # can also try: email = self.clean_email(self)
+
+        test = User.objects.filter(email=email)
+        if not test:
+            raise forms.ValidationError('Invalid email address, please register.')
+        return email
+
+
 class CustomUserCreationForm(UserCreationForm):
     # This will eventually will be for admin creation and management of user profiles
     email = forms.EmailField()
