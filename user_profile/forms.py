@@ -46,6 +46,23 @@ class UserLoginForm(AuthenticationForm):
     ))
 
 
+class PwdChangeForm(PasswordChangeForm):
+
+    old_password = forms.CharField(
+        label='Old Password', widget=forms.PasswordInput(
+            attrs={'class': 'form-control mb-3',
+                   'placeholder': 'Old Password',
+                   'id': 'form-oldpass'}))
+    new_password1 = forms.CharField(
+        label='New Password', widget=forms.PasswordInput(
+            attrs={'class': 'form-control mb-3',
+                   'placeholder': 'New Password',
+                   'id': 'form-newpass'}))
+    new_password2 = forms.CharField(
+        label='Confirm Password', widget=forms.PasswordInput(
+            attrs={'class': 'form-control mb-3',
+                   'placeholder': 'New Password',
+                   'id': 'form-newpass2'}))
 
 
 class CustomUserCreationForm(UserCreationForm):
