@@ -31,6 +31,23 @@ class PwdResetConfirmForm(SetPasswordForm):
     )
 
 
+class UserLoginForm(AuthenticationForm):
+
+    username = forms.CharField(widget=forms.TextInput(
+        attrs={'class': 'form-control mb-3',
+               'placeholder': 'Username',
+               'id': 'login-username'}))
+    password = forms.CharField(widget=forms.PasswordInput(
+        attrs={
+            'class': 'form-control',
+            'placeholder': 'password',
+            'id': 'login-pwd',
+        }
+    ))
+
+
+
+
 class CustomUserCreationForm(UserCreationForm):
     # This will eventually will be for admin creation and management of user profiles
     email = forms.EmailField()
