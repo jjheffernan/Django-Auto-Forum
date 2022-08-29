@@ -1,3 +1,5 @@
+# blog/views.py
+
 # django imports
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
@@ -34,12 +36,19 @@ class BlogCategoryView(ListView):
     model = Post
     template_name = 'blog_category.html'
     context_object_name = 'posts'
+    # context_object_name = 'blog_cat_list'  # alternative object in ORM
     # paginate_by = 2
 
     # method override does not work, needs to return category as title
     # def get_queryset(self):
+    #     content = {
+    #         'cat': self.kwargs['category'],
+    #         'posts': Post.objects.filter(category__name=self.kwargs['category']).filter(status='published')
+    #     }
     #     return Post.objects.filter(blog_category__icontains=self.kwargs.get('categories'))
+    #     return content
     # when not overwritten, site displays but without header
+
     # may need to add get_context_data
     # def get_context_data(self, *args, **kwargs):
     #     context = super().get_context_data(**kwargs)

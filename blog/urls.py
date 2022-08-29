@@ -16,6 +16,8 @@ urlpatterns = [
     # path('delete/<int:pk>/', views.DeleteBlog.as_view(), name='delete_blog'),
 ]
 
+# path('<slug:blog_post>/', views.BlogDetailView.as_view(), name='blog_detail'),
+
 # To use the function based legacy views:
 # path('', views.blog_index, name='blog_index'),
 # path('<int:pk>/', views.blog_detail, name='blog_detail'),

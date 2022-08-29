@@ -44,18 +44,23 @@ class Post(models.Model):  # blog style post, different from project or forum po
     body = models.TextField()  # same code as projects model, title could be build out
     status = models.CharField(max_length=10, choices=blog_options, default='draft')  # blog status
 
+    # User data
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blog_posts')
+    # author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='post', default=None)
+
     # categories needs to be filled out
     # add accomodations for CarFields
     categories = models.ManyToManyField('Category', related_name='posts')
+    # categories = models.ForeignKey(Category, on_delete=models.PROTECT, default=1)  # uses external categories
+
 
     # Post Metadata
     created_on = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
-    # author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='post', default=None)
     # slug = models.SlugField(max_length=100, unique=True) # or unique_for_date='created_on'
 
     # object handling
-    objects = models.Manager() # default django manager
+    objects = models.Manager()  # default django manager
     # car_manager = ProjectManager() # custom car manager to tag vehicles
 
     class Meta:
