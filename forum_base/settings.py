@@ -41,12 +41,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # user_profile.apps.UserProfileConfig,
-    # 'user_profile',
+    # 'user_profile.apps.UserProfileConfig',
+    'user_profile',
     'projects',
     # 'blog.apps.BlogConfig',
     'blog',
-    # 'discuss_forum',
+    'discuss_forum',
     'test_page',
 ]
 # List of project specific apps
