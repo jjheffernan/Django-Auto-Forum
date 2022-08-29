@@ -100,7 +100,22 @@ class CustomUserCreationForm(UserCreationForm):
 
 # update user information, Username/email
 class UserUpdateForm(forms.ModelForm):
-    email = forms.EmailField()
+
+    first_name = forms.CharField(
+        label='Firstname', min_length=4, max_length=50, widget=forms.TextInput(
+            attrs={'class': 'form-control mb-3',
+                   'placeholder': 'Firstname',
+                   'id': 'form-firstname'}))
+    last_name = forms.CharField(
+        label='Lastname', min_length=4, max_length=50, widget=forms.TextInput(
+            attrs={'class': 'form-control mb-3',
+                   'placeholder': 'Lastname',
+                   'id': 'form-lastname'}))
+    email = forms.EmailField(
+        max_length=200, widget=forms.TextInput(
+            attrs={'class': 'form-control mb-3',
+                   'placeholder': 'Update Email',
+                   'id': 'form-email'}))
 
     class Meta:
         model = User
