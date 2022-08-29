@@ -4,6 +4,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth.models import User
+
 # Create your models here.
 
 
@@ -17,6 +18,9 @@ class Category(models.Model):
 
     # need to add, get, post, and tag modifiers to get it to communicate with cars DB
 
+    def __str__(self):
+        return self.name
+
 
 # BLOG FORUM POST
 class Post(models.Model):  # blog style post, different from project or forum post
@@ -25,9 +29,21 @@ class Post(models.Model):  # blog style post, different from project or forum po
     This is delivered differently, still uses Bootstrap like projects.
     Essentially removes comments, feedback. More optimized for keeping track of forums.
     """
+    # manager class; eventually call Car project manager here
+    # class ProjectManager(models.Manager):
+
+    # Blog Post options; 'pinned', 'draft', 'published'
+    blog_options = (
+        ('draft', 'Draft'),
+        ('published', 'Published'),
+        ('pinned', 'Pinned'),
+    )
+
     # Content
     title = models.CharField(max_length=255)  # same code as projects model
     body = models.TextField()  # same code as projects model, title could be build out
+    status = models.CharField(max_length=10, choices=blog_options, default='draft')  # blog status
+
     # categories needs to be filled out
     # add accomodations for CarFields
     categories = models.ManyToManyField('Category', related_name='posts')
@@ -36,13 +52,17 @@ class Post(models.Model):  # blog style post, different from project or forum po
     created_on = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
     # author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='post', default=None)
-    # slug = models.SlugField(max_length=100, unique=True)
+    # slug = models.SlugField(max_length=100, unique=True) # or unique_for_date='created_on'
+
+    # object handling
+    objects = models.Manager() # default django manager
+    # car_manager = ProjectManager() # custom car manager to tag vehicles
 
     class Meta:
         ordering = ['-created_on']
 
     # def get_absolute_url(self):
-    #     return reverse('post:blog_detail')  # can probably add context dict here
+    #     return reverse('post:blog_detail', args=[self.slug)  # can probably add context dict here
 
     def __str__(self):
         return self.title

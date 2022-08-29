@@ -12,3 +12,10 @@ class Project(models.Model):
 
     def __str__(self):
         return self.title
+
+
+
+# notes:
+# this could potentially be used as an inheritance mixin due to its simplicity.
+# This way, Posts, and other actions can embed the projects
+
