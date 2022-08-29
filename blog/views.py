@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-
+from django.contrib.auth.models import User
 # local namespace imports
 from blog.models import Post, Comment
 from blog.forms import CommentForm
@@ -59,6 +59,16 @@ class BlogCategoryView(ListView):
     #     # context['category'] = get_object_or_404(Post, category=self.kwargs.get('category'))
     #     context['posts'] = get_object_or_404(Post, pk=self.kwargs.get('pk'))
 
+
+class BlogUserPostView(ListView):
+    model = Post
+    template_name = 'user_posts.html'
+    context_object_name = 'posts'
+    paginate_by = 5
+
+    def get_queryset(self):
+        user = get_object_or_404(User, username=self.kwargs.get('username'))
+        return Post.objects.filter(author=user).order_by('-date_posted')
 
 # blog detail view
 class BlogDetailView(DetailView):
@@ -117,7 +127,7 @@ class EditBlog(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 # Delete Existing Blog Post
 class DeleteBlog(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
-    template_name = 'delete_blog.html'
+    template_name = 'confirm_delete_blog.html'
     pk_url_kwarg = 'pk'
     success_url = reverse_lazy('blog:posts')
 
