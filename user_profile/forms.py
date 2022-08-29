@@ -121,6 +121,11 @@ class UserUpdateForm(forms.ModelForm):
         model = User
         fields = ['username', 'email']
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['last_name'].required = False
+        self.fields['email'].required = False
+
 
 # Update profile picture
 class ProfileUpdateForm(forms.ModelForm):
