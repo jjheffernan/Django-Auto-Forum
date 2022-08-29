@@ -2,14 +2,16 @@
 
 # django imports
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordResetForm, PasswordChangeForm, SetPasswordForm
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
 # local namespace imports
 from user_profile.models import Profile
 
 
 class CustomUserCreationForm(UserCreationForm):
+    # This will eventually will be for admin creation and management of user profiles
     email = forms.EmailField()
 
     class Meta:
@@ -33,4 +35,8 @@ class ProfileUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        fields = ['image']  # for profile photos
+        fields = ['bio', 'image']  # for profile photos
+
+        widgets = {
+            'bio': forms.Textarea(attrs={'class': 'form-control', 'rows': '5'})
+        }
