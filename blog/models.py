@@ -68,6 +68,7 @@ class Post(models.Model):  # blog style post, different from project or forum po
 
     # def get_absolute_url(self):
     #     return reverse('post:blog_detail', args=[self.slug)  # can probably add context dict here
+    # can also try: kwargs={'pk': self.pk}
 
     def __str__(self):
         return self.title

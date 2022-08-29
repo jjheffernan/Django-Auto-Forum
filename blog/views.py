@@ -5,6 +5,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 # local namespace imports
 from blog.models import Post, Comment
@@ -20,6 +21,9 @@ class BlogIndexView(ListView):
     model = Post
     template_name = "blog_index.html"
     context_object_name = 'posts'
+    # context_object_name = 'blog_list'  # alternative object in ORM
+    # paginate_by = 2
+    # ordering = [-date_posted']
 
     # def __str__(self):
     #     # this is part of the initialization of a view
@@ -80,28 +84,48 @@ class BlogDetailView(DetailView):
 
 # CRUD method classes for Blog Posts
 # Create New Blog Post
-class AddBlog(CreateView):
+class AddBlog(LoginRequiredMixin, CreateView):
     model = Post
     template_name = 'create_blog.html'
     fields = '__all__'
     success_url = reverse_lazy('blog:posts')  # unsure if correct syntax, check docs
 
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
 
 # Edit Existing Blog Post
-class EditBlog(UpdateView):
+class EditBlog(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
     template_name = 'edit_blog.html'
     fields = '__all__'
     pk_url_kwarg = 'pk'
     success_url = reverse_lazy('blog:posts')
 
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user == post.author:
+            return True
+        return False
+
 
 # Delete Existing Blog Post
-class DeleteBlog(DeleteView):
+class DeleteBlog(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
     template_name = 'delete_blog.html'
     pk_url_kwarg = 'pk'
     success_url = reverse_lazy('blog:posts')
+
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user == post.author:
+            return True
+        return False
 
 
 # legacy function based views
