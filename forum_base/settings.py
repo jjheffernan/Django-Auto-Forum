@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = ''
-
+# os.environ.get()
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -160,15 +160,17 @@ AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
 AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None
 
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
 # Redirect urls
 # https://docs.djangoproject.com/en/4.1/ref/settings/#std-setting-LOGIN_REDIRECT_URL
 
 # LOGIN
-LOGIN_REDIRECT_URL = 'dashboard/'
+LOGIN_REDIRECT_URL = '/profile/dashboard/'  # should redirect to profile page
 LOGIN_URL = 'login'
 
 # LOGOUT
-LOGOUT_REDIRECT_URL = 'home/'
+LOGOUT_REDIRECT_URL = '/'  # redirects to home page
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
