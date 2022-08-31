@@ -83,7 +83,7 @@ class PwdResetForm(PasswordResetForm):
             raise forms.ValidationError('Invalid email address, please register.')
         return email
 
-# -- Accont Creation Forms --
+# -- Account Creation Forms --
 
 
 # Admin/Custom User Creation (non-standard roles)
@@ -132,11 +132,12 @@ class ProfileUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        fields = ['bio', 'image']  # for profile photos
+        fields = ['profile_img']  # for profile photos
 
-        widgets = {
-            'bio': forms.Textarea(attrs={'class': 'form-control', 'rows': '5'})
-        }
+        # add ['bio'] to change profile bio
+        # widgets = {
+        #     'bio': forms.Textarea(attrs={'class': 'form-control', 'rows': '5'})
+        # }
 
 
 class RegistrationForm(forms.ModelForm):
