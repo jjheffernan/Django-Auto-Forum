@@ -48,7 +48,7 @@ See the *docs* folder for some extra documentation on the specifics of the progr
 
 ## Tech Stack (as)
 - Django
-
+  - Added Pillow to venv (8/30)
 
 
 
