@@ -11,17 +11,20 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+import user_profile.apps
 
+BASE_DIR = Path(__file__).resolve().parent.parent
+# os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = ''
-
+# os.environ.get()
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -31,16 +34,19 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    # 'user_profile',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 'user_profile.apps.UserProfileConfig',
+    'user_profile',
     'projects',
+    # 'blog.apps.BlogConfig',
     'blog',
-    # 'discuss_forum',
+    'discuss_forum',
     'test_page',
 ]
 # List of project specific apps
@@ -128,21 +134,43 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+# Crispy?
+
 # email server hosting information. Need to expand upon
 # https://docs.djangoproject.com/en/4.1/ref/settings/#std-setting-EMAIL_HOST
 
-EMAIL_HOST = 'localhost'
-EMAIL_PORT = 1025
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'localhost'  # try 'smtp.gmail.com' or godaddy
+EMAIL_PORT = 1025  # try 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASS')
 # required for password reset forms
+
+# AWS S3 Server Information
+# (add link here to django or AWS docs)
+
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')  # NEVER EVER EVER HARDCODE THESE
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')  # NEVEREVER PUT THIS IN SCRIPT
+AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # Redirect urls
 # https://docs.djangoproject.com/en/4.1/ref/settings/#std-setting-LOGIN_REDIRECT_URL
 
 # LOGIN
-LOGIN_REDIRECT_URL = 'dashboard/'
+LOGIN_REDIRECT_URL = '/profile/dashboard/'  # should redirect to profile page
+LOGIN_URL = 'login'
 
 # LOGOUT
-LOGOUT_REDIRECT_URL = 'dashboard/'
+LOGOUT_REDIRECT_URL = '/'  # redirects to home page
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
