@@ -2,6 +2,7 @@
 
 # django imports
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import View, CreateView, UpdateView, DeleteView, DetailView, TemplateView, ListView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
@@ -11,7 +12,16 @@ from discuss_forum.models import Author, ForumCategory, ForumPost, ForumComment,
 from blog.models import Category
 from forms import *
 
+
 # Create your views here.
+# forum home view (class based)
+class ForumHome(TemplateView):
+    model = ForumPost
+    template_name = 'forum_home.html'
+    context_object_name = 'forum_posts'
+
+    # def get_context_data(self, **kwargs):
+    #     return
 
 
 def forum_home(request):
