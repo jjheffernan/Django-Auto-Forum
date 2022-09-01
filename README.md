@@ -1,5 +1,5 @@
 # Django-Auto-Forum
-[![image](https://img.shields.io/github/followers/{username}.svg?style=social&label=Follow&maxAge=2592000)]
+[![image](https://img.shields.io/github/followers/jjheffernan.svg?style=social&label=Follow&maxAge=2592000)]
 ## A website for car enthusiast how-tos
 Django Based Forum with content hosting to cloud, focused around Auto Enthusiasts
 
