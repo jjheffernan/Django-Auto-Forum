@@ -10,7 +10,7 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 # local namespace imports
 from discuss_forum.models import Author, ForumCategory, ForumPost, ForumComment, Reply
 from blog.models import Category
-from forms import *
+from discuss_forum.forms import *
 
 
 # Create your views here.
@@ -27,9 +27,9 @@ class ForumHome(TemplateView):
 def forum_home(request):
     forums = Category.objects.all()
     # Maybe try get_list_or_404()
-    num_posts = ForumPost.objects.all.count()
-    num_users = User.objects.all.count()
-    num_categories = forums.count()
+    # num_posts = ForumPost.objects.all.count()
+    # num_users = User.objects.all.count()
+    # num_categories = forums.count()
 
     # bad implementation
     try:
@@ -39,9 +39,9 @@ def forum_home(request):
 
     context = {
         'forums': forums,
-        'num_posts': num_posts,
-        'num_users': num_users,
-        'num_categories': num_categories,
+        # 'num_posts': num_posts,
+        # 'num_users': num_users,
+        # 'num_categories': num_categories,
         'last_post': last_post,
         # 'title': 'forum title',
     }
