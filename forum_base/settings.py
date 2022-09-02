@@ -47,14 +47,15 @@ INSTALLED_APPS = [
     # django packages,
     'storages',
     # 'django-heroku',
+    # app config init
     # 'user_profile.apps.UserProfileConfig',
-    'user_profile',
-    'projects',
     # 'blog.apps.BlogConfig',
+    'projects',
+    'user_profile',
     'blog',
     'discuss_forum',
     'test_page',
-    # packages,
+    # ext. packages,
     'crispy_forms',
     'hitcount',
     'taggit',
@@ -92,6 +93,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # 'discuss_forum.context_processors.SearchFunction',
             ],
         },
     },
@@ -151,6 +153,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 # Crispy?
+CRISPY_TEMPLATE_PACK = 'boostrap4'
 
 # email server hosting information. Need to expand upon
 # https://docs.djangoproject.com/en/4.1/ref/settings/#std-setting-EMAIL_HOST
