@@ -48,18 +48,18 @@ See the *docs* folder for some extra documentation on the specifics of the progr
 - 
 
 ## Tech Stack (as)
-- Django
+- Django Package List:
   - Added Pillow to venv (8/30)
   - Added gunicorn (9/1)
   - Added django-heroku (9/2)
   - Added django storages (9/2)
-  - Added django crispy forms ()
-  - Added boto3 for storage ()
-  - Added django hitcount ()
-  - Added django storages ()
-  - Added django tinymce ()
-  - Added django taggit ()
-  - 
+  - Added django crispy forms (9/2)
+  - Added boto3 for storage (9/2)
+  - Added django hitcount (9/2)
+  - Added django storages (9/2)
+  - Added django tinymce (9/2)
+  - Added django taggit (9/2)
+  
 
 
 
