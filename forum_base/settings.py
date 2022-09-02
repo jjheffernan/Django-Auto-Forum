@@ -24,12 +24,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = ''
-# os.environ.get()
+# SECRET_KEY = os.environ.get('SECRET_KEY')
+
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True  # For local debugging
+# DEBUG = (os.environ.get('DEBUG_VALUE') == 'True')  # For deployment on Heroku
+# Allowed Host URLs
 
 ALLOWED_HOSTS = []
-
+# djangoapp.herokuapp.com
 
 # Application definition
 
@@ -41,6 +44,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # django packages,
+    'storages',
+    # 'django-heroku',
     # 'user_profile.apps.UserProfileConfig',
     'user_profile',
     'projects',
@@ -48,6 +54,13 @@ INSTALLED_APPS = [
     'blog',
     'discuss_forum',
     'test_page',
+    # packages,
+    'crispy_forms',
+    'hitcount',
+    'taggit',
+    'tinymce',
+    # '',
+
 ]
 # List of project specific apps
 # test_page. Debugging tool used to stage applications
@@ -84,7 +97,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'forum_base.wsgi.application'
+WSGI_APPLICATION = 'forum_base.wsgi.application'  # web service gate interface
 
 
 # Database
@@ -96,7 +109,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
+# migrate to postgresql for production
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
