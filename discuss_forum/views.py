@@ -2,6 +2,7 @@
 
 # django imports
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import View, CreateView, UpdateView, DeleteView, DetailView, TemplateView, ListView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
@@ -9,17 +10,26 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 # local namespace imports
 from discuss_forum.models import Author, ForumCategory, ForumPost, ForumComment, Reply
 from blog.models import Category
-from forms import *
+from discuss_forum.forms import *
+
 
 # Create your views here.
+# forum home view (class based)
+class ForumHome(TemplateView):
+    model = ForumPost
+    template_name = 'forum_home.html'
+    context_object_name = 'forum_posts'
+
+    # def get_context_data(self, **kwargs):
+    #     return
 
 
 def forum_home(request):
     forums = Category.objects.all()
     # Maybe try get_list_or_404()
-    num_posts = ForumPost.objects.all.count()
-    num_users = User.objects.all.count()
-    num_categories = forums.count()
+    # num_posts = ForumPost.objects.all.count()
+    # num_users = User.objects.all.count()
+    # num_categories = forums.count()
 
     # bad implementation
     try:
@@ -29,9 +39,9 @@ def forum_home(request):
 
     context = {
         'forums': forums,
-        'num_posts': num_posts,
-        'num_users': num_users,
-        'num_categories': num_categories,
+        # 'num_posts': num_posts,
+        # 'num_users': num_users,
+        # 'num_categories': num_categories,
         'last_post': last_post,
         # 'title': 'forum title',
     }

@@ -10,8 +10,8 @@ from blog import views
 urlpatterns = [
     path('index/', views.BlogIndexView.as_view(), name='blog_index'),
     path('post/<int:pk>/', views.BlogDetailView.as_view(), name='blog_detail'),
-    path('<category>/', views.BlogCategoryView.as_view(), name='blog_category')
-    # path('post/create/', views.AddBlog.as_view(), name='create_blog'),
+    path('<category>/', views.BlogCategoryView.as_view(), name='blog_category'),
+    path('post/create/', views.AddBlog.as_view(), name='create_blog'),
     # path('post/<int:pk>/edit/', views.EditBlog.as_view(), name='edit_blog'),
     # path('post/<int:pk>/delete/', views.DeleteBlog.as_view(), name='delete_blog'),
 ]

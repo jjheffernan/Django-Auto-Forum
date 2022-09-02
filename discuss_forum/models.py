@@ -96,6 +96,7 @@ class ForumPost(models.Model):
     slug = models.SlugField(max_length=500, unique=True, blank=True)
     user = models.ForeignKey(Author, on_delete=models.CASCADE)
     # content = HTMLField() #tinymce field
+    content = models.TextField()
 
     # categories
     categories = models.ManyToManyField(ForumCategory)

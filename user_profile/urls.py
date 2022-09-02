@@ -11,7 +11,7 @@ urlpatterns = [
     path(r'dashboard/', views.dashboard, name='dashboard'),
     path(r'register/', views.register, name='register'),
     path(r'profile/', views.profile, name='profile'),
-    path(r'profile/', views.profile, name='profile'),
+    # path(r'profile/', views.profile, name='profile'),
 ]
 # remember to change to class.as_view later on
 # see user_profile/README.md for notes on "django.contrib.auth.urls"

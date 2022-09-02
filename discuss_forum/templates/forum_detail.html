@@ -1,0 +1,40 @@
+<!-- /discuss_forum/templates/forum_detail.html -->
+
+{% extends "base.html" %}
+
+{% block page_content%}
+    <div class="container">
+        <!--Navigation-->
+        <div class="navigate">
+            <span><a href="{% url 'home' %}">MyForum - Forums</a> >> <a href="{{post.categories.all.0.get_url}}">{{post.categories.all.0}}</a> >> <a href="{{post.get_url}}">{{post.title}}</a></span>
+        </div>
+
+        <!--Topic Section-->
+        <div class="topic-container">
+
+            <!--Original thread-->
+            <div class="head">
+                <div class="authors">Author</div>
+                <div class="content">Topic: {{post.title}} (Read {% get_hit_count for post %} Times)</div>
+            </div>
+
+            <div class="body">
+                <div class="authors">
+                    <div class="username"><a href="">{{post.user.fullname|title}}</a></div>
+                    <div>Role</div>
+                    <img src="{{post.user.profile_pic.url}}" alt="">
+                    <div>Posts: <u>{{post.user.num_posts}}</u></div>
+<!--                    <div>Points: <u>{{post.user.points}}</u></div>-->
+                </div>
+                <div class="content">
+                    {{post.content|safe}}
+                    <br>
+                    <div class="comment">
+                        <button onclick="showComment()">Comment</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
