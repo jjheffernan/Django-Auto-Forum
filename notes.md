@@ -9,6 +9,12 @@ https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Home_page
 https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Generic_views
 https://www.dennisivy.com/post/django-class-based-views/
 https://github.com/CoreyMSchafer/code_snippets/tree/master/Django_Blog
+https://django-crispy-forms.readthedocs.io/en/latest/index.html
+https://django-hitcount.readthedocs.io/en/latest/installation.html
+https://django-storages.readthedocs.io/en/latest/
+https://django-tinymce.readthedocs.io/en/latest/
+https://django-taggit.readthedocs.io/en/latest/
+https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html#installation
 
 An inspirational forum app(s):
 https://djangopackages.org/grids/g/forum/
@@ -18,6 +24,8 @@ https://github.com/vitorfs/bootcamp
 YT channels with helpful content:
 Pretty Printed
 Very Academy
+Dennis Ivy
+
 
 Forum apps I would like to emulate:
 https://www.bimmerfest.com/forums/ (best done forum I have seen)

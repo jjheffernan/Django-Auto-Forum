@@ -7,6 +7,7 @@ Install virtual environment `-m venv venv`
 Install django `python3 -m pip install django`
 Make sure you have a specific version of Python in your virtual environment, 
 see `requirements.txt` for the python dependencies and project dependencies.
+Use `pip freeze` to check the current virtual environment installs. Refer to previous for matching.
 
 ### Getting Started
 In terminal within the project root, run `python manage.py runserver`
@@ -49,6 +50,16 @@ See the *docs* folder for some extra documentation on the specifics of the progr
 ## Tech Stack (as)
 - Django
   - Added Pillow to venv (8/30)
+  - Added gunicorn (9/1)
+  - Added django-heroku (9/2)
+  - Added django storages (9/2)
+  - Added django crispy forms ()
+  - Added boto3 for storage ()
+  - Added django hitcount ()
+  - Added django storages ()
+  - Added django tinymce ()
+  - Added django taggit ()
+  - 
 
 
 
