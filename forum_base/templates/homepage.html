@@ -16,23 +16,23 @@
     <div class="col-12">
       <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
-          {% for showcase in showcases %}
+          {% for project in projects %}
           <li data-target="#carouselExampleControls" data-slide-to="0" class="active"></li>
           <li data-target="#carouselExampleControls" data-slide-to="1"></li>
           <li data-target="#carouselExampleControls" data-slide-to="2"></li>
           {% endfor %}
         </ol>
         <div class="carousel-inner">
-        {% for showcase in showcases|slice:":3" %}
+        {% for project in projects|slice:":3" %}
           {% if forloop.first %}
             <div class="active item">
           {% else %}
             <div class="item">
           {% endif %}
             <blockquote>
-                <p>{{ showcase.blurb }}</p>
+                <p>{{ project.title }}</p>
             </blockquote>
-            <label>{{ showcase.title }}</label>
+            <label>{{ project.description }}</label>
           </div>
         {% endfor %}
         </div>
@@ -40,8 +40,8 @@
           <div class="carousel-item active">
             <img class="d-block w-100" src="{% static '' %}" alt="First slide">
             <div class="carousel-caption d-none d-md-block">
-              <h5><a href="{% url 'homepage' showcase.pk%}">{{ Carousel-Title }}</a></h5>
-              <p>{{ }}</p>
+              <h5><a href="{% url 'project_detail' project.pk %}">{{ project.title }}</a></h5>
+              <p>{{ project.description }}</p>
             </div>
           </div>
           <!-- non-active item -->
