@@ -120,6 +120,7 @@ class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'email']
+        # fields = ['first_name', 'last_name', 'email']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -154,6 +155,8 @@ class RegistrationForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('username', 'email', 'first_name')
+        # fields = ['username', 'email', 'password1', 'password2']
+
 
     def clean_username(self):
         username = self.cleaned_data['username'].lower()

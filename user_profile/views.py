@@ -2,7 +2,7 @@
 
 # django imports
 from django.shortcuts import render, redirect
-from django.contrib.auth import login
+from django.contrib.auth import login, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.urls import reverse
@@ -14,15 +14,19 @@ from user_profile.models import Profile
 
 
 # Create your views here.
+
+User = get_user_model()
+
+
 # dashboard view (class based)
 @login_required
 class ProfileDashboard(TemplateView):
-    template_name = 'dashboard.html'
+    template_name = 'login_dashboard.html'
 
 
 # dashboard view (function based)
 def dashboard(request):
-    return render(request, 'dashboard.html')
+    return render(request, 'registration/login_dashboard.html')
 
 
 # THIS LENDS ITSELF VERY NICELY TO CBVs
@@ -31,7 +35,7 @@ class RegisterProfile(View):
     model = Profile
 
     def get(self, request):
-        return render(request, 'user_profile/register.html',
+        return render(request, 'registration/register.html',
                       {'form': CustomUserCreationForm})
 
     def post(self, request):
@@ -49,7 +53,7 @@ class RegisterProfile(View):
             return redirect(reverse('dashboard'))
         else:
             form = CustomUserCreationForm()
-        return render(request, 'user_profile/register.html', {'form': CustomUserCreationForm})
+        return render(request, 'registration/register.html', {'form': CustomUserCreationForm})
 
 
 def register(request):
@@ -121,4 +125,4 @@ def profile(request):
         'profile_form': profile_form
     }
 
-    return render(request, 'user_profile/profile.html', context)
+    return render(request, 'profile.html', context)
