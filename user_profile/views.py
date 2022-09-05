@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views.generic import View, TemplateView, CreateView
 
 # local imports
@@ -35,7 +35,7 @@ def dashboard(request):
 class RegisterProfile(CreateView):
     model = User
     template_name = 'registration/register.html'
-    # success_url = reverse_lazy('login')
+    success_url = reverse_lazy('login_dashboard')
     form_class = UserRegisterForm
 
 
