@@ -24,6 +24,7 @@ class ForumHome(TemplateView):
     #     return
 
 
+# forum home page view, does not show posts or topics
 def forum_home(request):
     forums = Category.objects.all()
     # Maybe try get_list_or_404()
@@ -49,8 +50,78 @@ def forum_home(request):
     return render(request, 'forum_home.html', context)
 
 
+# list view of forum topics
+class ForumTopicIndexView(ListView):
+    model = ForumPost
+    template_name = 'forum_topic_index.html'
+
+    class Meta:
+        # context
+        pass
+
+    def create_topic(self, request):
+        # creates new forum (called topics)
+        # requires admin permission
+        pass
+
+    def create_subforum(self, request):
+        # requires admin permission
+        pass
+
+    def create_post(self, request):
+        # requires login
+        # should abstract out to another class or function view
+        pass
+
+
+# forum posts index view, migrated from blog
+def posts(request, slug):
+
+    category = get_object_or_404(Category, slug=slug)
+    posts = ForumPost.objects.filter(approved=True, categories=category)
+    paginator = Paginator(posts, 5)
+    page = request.GET.get("page")
+
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+
+    context = {
+        'posts': posts,
+        'forum': category,
+        # 'title': ,
+    }
+
+    return render(request, 'posts.html', context)
+
+
+# class based view of specific Forum/Subforum view
+class ForumPostIndexView(ListView):
+    template_name = 'forum_index.html'
+    model = ForumPost
+    post = get_object_or_404(ForumPost)  # might need to add slug here or filter by slug
+
+
+class ForumPostDetailView(DetailView):
+    template_name = 'forum_detail.html'
+    model = ForumPost
+    post = get_object_or_404(ForumPost)
+
+    class Meta:
+        pass
+
+    def comment_form(self, request):
+        pass
+
+    def reply_form(self, request):
+        pass
+
+
 # detail view of forums
-def forum_detail(request, slug):
+def forum_post_detail(request, slug):
     post = get_object_or_404(ForumPost, slug=slug)
 
     # if statements. will turn into def when swapping to CBVs
@@ -77,29 +148,6 @@ def forum_detail(request, slug):
     # update_views(request, post)
 
     return render(request, 'detail.html', context)
-
-
-def posts(request, slug):
-
-    category = get_object_or_404(Category, slug=slug)
-    posts = ForumPost.objects.filter(approved=True, categories=category)
-    paginator = Paginator(posts, 5)
-    page = request.GET.get("page")
-
-    try:
-        posts = paginator.page(page)
-    except PageNotAnInteger:
-        posts = paginator.page(1)
-    except EmptyPage:
-        posts = paginator.page(paginator.num_pages)
-
-    context = {
-        'posts': posts,
-        'forum': category,
-        # 'title': ,
-    }
-
-    return render(request, 'posts.html', context)
 
 
 @login_required
