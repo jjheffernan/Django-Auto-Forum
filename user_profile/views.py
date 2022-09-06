@@ -62,9 +62,10 @@ def register(request):
 
 
 # profile page (class based)
-class ProfilePage(View):
+class ProfilePage(TemplateView):
     user_form = UserUpdateForm()
     profile_form = ProfileUpdateForm()
+    template_name = 'profile.html'
 
     context = {
         'user_form': user_form,
