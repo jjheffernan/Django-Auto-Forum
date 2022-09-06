@@ -11,6 +11,7 @@ urlpatterns = [
     path('detail/<slug>/', forum_post_detail, name='detail'),
     path('posts/<slug>/', posts, name='posts'),
     path('posts/create/', create_post, name='create_post'),
+    path('create/', create_post, name='create_post'),
     path('latest/', latest_posts, name='latest_posts'),
     # path('search', search_result, name='search_result'),
 ]
