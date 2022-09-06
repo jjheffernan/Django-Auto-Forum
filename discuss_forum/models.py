@@ -20,7 +20,7 @@ class Author(models.Model):
     fullname = models.CharField(max_length=40, blank=True)  # get nickname
     slug = models.SlugField(max_length=400, unique=True, blank=True)
     # bio = HTMLField() # profile bio
-    points = models.IntegerField(default=0) # karma/upvotes
+    points = models.IntegerField(default=0)  # karma/upvotes
     # profile_pic = ResizedImageField
 
     def __str__(self):
@@ -36,7 +36,9 @@ class Author(models.Model):
         super(Author, self).save(*args, **kwargs)
 
 
+# may also be referred to as topics, this is the basis of the forums. Tags aside
 class ForumCategory(models.Model):
+    """Categories Serve the front end of the website. The basis of how the forum table is viewed."""
     title = models.CharField(max_length=100)
     slug = models.SlugField(max_length=400, unique=True, blank=True)
     description = models.TextField(default='description')
@@ -66,6 +68,11 @@ class ForumCategory(models.Model):
         return ForumPost.objects.filter(categories=self).count()
 
 
+# child of Forum Category
+class SubForum(models.Model):
+    pass
+
+
 # -- Forum Post Interaction --
 # reddit style replies to original comments
 class Reply(models.Model):
@@ -91,6 +98,7 @@ class ForumComment(models.Model):
         return self.comment_content[:100]
 
 
+# Posts to Sub-forum
 class ForumPost(models.Model):
     title = models.CharField(max_length=400)
     slug = models.SlugField(max_length=500, unique=True, blank=True)
