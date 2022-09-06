@@ -8,22 +8,102 @@ from django.contrib.auth.models import User
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 # local namespace imports
-from discuss_forum.models import Author, ForumCategory, ForumPost, ForumComment, Reply
+from discuss_forum.models import *
 from blog.models import Category
 from discuss_forum.forms import *
 
 
 # Create your views here.
 # forum home view (class based)
-class ForumHome(TemplateView):
+class ForumHome(ListView):
     model = ForumPost
-    template_name = 'forum_home.html'
+    template_name = 'forum_index.html'
     context_object_name = 'forum_posts'
+    # queryset = ForumPost.objects.all()
 
-    # def get_context_data(self, **kwargs):
-    #     return
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)  # calls base implementation
+        # add queryset
+        context['forum_list'] = ForumPost.objects.all()
+        return context
 
 
+# list view of forum topics
+class ForumCatIndexView(ListView):
+    model = ForumPost
+    template_name = 'forum_topic_index.html'
+
+    class Meta:
+        # context
+        ordering = []
+        pass
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)  # calls base implementation
+        # add queryset
+        context['forum_list'] = ForumPost.objects.all()
+        return context
+
+
+class CreateForumCategory(CreateView):
+    model = ForumCategory
+    template_name = 'create_forum_topic'
+
+    class Meta:
+        # context
+        pass
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)  # calls base implementation
+        # add queryset
+        context['forum_list'] = ForumPost.objects.all()
+        return context
+
+
+class CreateSubForum(CreateView):
+    model = SubForum
+    # requires admin permission
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)  # calls base implementation
+        # add queryset
+        context['forum_list'] = ForumPost.objects.all()
+        return context
+
+
+class CreateForumPost(CreateView):
+    # requires login
+    # should abstract out to another class or function view
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)  # calls base implementation
+        # add queryset
+        context['forum_list'] = ForumPost.objects.all()
+        return context
+
+
+# class based view of specific Forum/Subforum view
+class ForumPostIndexView(ListView):
+    template_name = 'forum_index.html'
+    model = ForumPost
+    post = get_object_or_404(ForumPost)  # might need to add slug here or filter by slug
+
+
+class ForumPostDetailView(DetailView):
+    template_name = 'forum_detail.html'
+    model = ForumPost
+    post = get_object_or_404(ForumPost)
+
+    class Meta:
+        pass
+
+    def comment_form(self, request):
+        pass
+
+    def reply_form(self, request):
+        pass
+
+
+# - function based views (legacy) -
 # forum home page view, does not show posts or topics
 def forum_home(request):
     forums = Category.objects.all()
@@ -50,30 +130,6 @@ def forum_home(request):
     return render(request, 'forum_home.html', context)
 
 
-# list view of forum topics
-class ForumTopicIndexView(ListView):
-    model = ForumPost
-    template_name = 'forum_topic_index.html'
-
-    class Meta:
-        # context
-        pass
-
-    def create_topic(self, request):
-        # creates new forum (called topics)
-        # requires admin permission
-        pass
-
-    def create_subforum(self, request):
-        # requires admin permission
-        pass
-
-    def create_post(self, request):
-        # requires login
-        # should abstract out to another class or function view
-        pass
-
-
 # forum posts index view, migrated from blog
 def posts(request, slug):
 
@@ -96,28 +152,6 @@ def posts(request, slug):
     }
 
     return render(request, 'posts.html', context)
-
-
-# class based view of specific Forum/Subforum view
-class ForumPostIndexView(ListView):
-    template_name = 'forum_index.html'
-    model = ForumPost
-    post = get_object_or_404(ForumPost)  # might need to add slug here or filter by slug
-
-
-class ForumPostDetailView(DetailView):
-    template_name = 'forum_detail.html'
-    model = ForumPost
-    post = get_object_or_404(ForumPost)
-
-    class Meta:
-        pass
-
-    def comment_form(self, request):
-        pass
-
-    def reply_form(self, request):
-        pass
 
 
 # detail view of forums
