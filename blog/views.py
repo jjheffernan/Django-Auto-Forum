@@ -1,10 +1,11 @@
 # blog/views.py
 
 # django imports
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.http import HttpResponse
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 # local namespace imports
@@ -77,6 +78,7 @@ class BlogDetailView(DetailView):
     model = Post
     template_name = "blog_detail.html"
     form = CommentForm()
+    # comments = Comment.objects.filter(post=)
     context_object_name = 'post'
     # pk_url_kwarg = 'custom_pk'
 
@@ -86,24 +88,57 @@ class BlogDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # context['posts'] = Post.objects.filter(id=self.kwargs.get('id'))
+        # context['posts'] = get_object_or_404(Post, pk=self.kwargs.get('pk'))
         context['posts'] = get_object_or_404(Post, pk=self.kwargs.get('pk'))
+        # context['comments'] = Comment.objects.filter(id=self.kwargs.get('pk'))
         return context
 
-    def post(self, request):
-        Comment.object.create()
+    def post(self, request, pk):
+        if request.method == 'POST':
+            form = CommentForm(request.POST)
+            if form.is_valid():
+                comment = Comment(
+                    author=form.cleaned_data['author'],
+                    body=form.cleaned_data['body'],
+                    post=Post
+                )
+        # return comment
+        return HttpResponse
 
 
 # CRUD method classes for Blog Posts
 # Create New Blog Post
+# test_func is for UserPassesTestMixin, but is redundant since element is not shown. Security rework here later
 class AddBlog(LoginRequiredMixin, CreateView):
     model = Post
     template_name = 'create_blog.html'
     fields = '__all__'
-    success_url = reverse_lazy('blog:posts')  # unsure if correct syntax, check docs
+    # success_url = reverse_lazy('blog/index')  # fixed syntax. correct redirect to new post url
+
+    # def get_success_url(self):
+    #     messages.success(
+    #         self.request, 'Your Post has been Created'
+    #     )
+    #     return reverse_lazy('blog/index')
 
     def form_valid(self, form):
         form.instance.author = self.request.user
+        blog_object = form.save(commit=False)
+        blog_object.author = self.request.user
+        # obj.slug = slugify(form.cleaned_data['title'])
         return super().form_valid(form)
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #
+    #     return context
+
+    # def test_func(self):
+    #     post = self.get(Post)
+    #     # need to add check here.
+    #     if self.for == self.request.user:
+    #         return True
+    #     return False
 
 
 # Edit Existing Blog Post
@@ -119,7 +154,7 @@ class EditBlog(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return super().form_valid(form)
 
     def test_func(self):
-        post = self.get_object()
+        post = self.get_object(Post)
         if self.request.user == post.author:
             return True
         return False

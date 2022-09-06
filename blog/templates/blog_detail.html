@@ -14,7 +14,8 @@
     </small>
     <p>{{ post.body | linebreaks }}</p>
     <h3>Leave a comment:</h3>
-    <form action="/blog/{{ post.pk }}/" method="post">
+    <form action="/blog/post/{{ post.pk }}/" method="post">
+    <!-- might need to add post.pk instead of post. Side note, doing {{ post }} slugs the url -->
         {% csrf_token %}
         <div class="form-group">
             {{ form.author }}
