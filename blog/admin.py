@@ -33,7 +33,6 @@ class CommentAdmin(admin.ModelAdmin):
         queryset.update(active=False)
 
 
-
 # this is an alternative method, should generalize all post methods
 # @admin.register(Post)
 # class BlogAdmin(admin.ModelAdmin):
@@ -41,7 +40,7 @@ class CommentAdmin(admin.ModelAdmin):
 
 
 # Registers file to site
-admin.site.register(Post, PostAdmin)
+admin.site.register(BlogPost, PostAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Comment, CommentAdmin)
 
