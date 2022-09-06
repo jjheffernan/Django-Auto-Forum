@@ -40,7 +40,7 @@
           <div class="carousel-item active">
             <img class="d-block w-100" src="{% static '' %}" alt="First slide">
             <div class="carousel-caption d-none d-md-block">
-              <h5><a href="{% url 'project_detail' project.pk %}">{{ project.title }}</a></h5>
+              <h5><a href="{#% url 'project_detail' project.pk %#}">{{ project.title }}</a></h5>
               <p>{{ project.description }}</p>
             </div>
           </div>
@@ -88,7 +88,17 @@
       <div class="col-lg-12 col-12">
         <!-- within table -->
         <div class="row">
+          {% for project in projects %}
           <!-- within row of 2 cards -->
+          <div class="col-sm-6 col-12">
+            <div class="card"> <img class="card-img-top" src="{% static project.image %}" alt="Card image cap">
+              <div class="card-body">
+                <h5 class="card-title">{{ project.title }}</h5>
+                <p class="card-text">{{ project.description }}</p>
+                <a href="{% url 'project_detail' project.pk %}" class="btn btn-primary">Read more</a> </div>
+            </div>
+          </div>
+          {% endfor %}
           <div class="col-sm-6 col-12">
             <div class="card"> <img class="card-img-top" src="images/400X200.gif" alt="Card image cap">
               <div class="card-body">
@@ -98,14 +108,6 @@
             </div>
           </div>
 
-          <div class="col-sm-6 col-12">
-            <div class="card"> <img class="card-img-top" src="images/400X200.gif" alt="Card image cap">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a> </div>
-            </div>
-          </div>
         </div>
         <!-- secondary card row -->
         <div class="row">
@@ -145,17 +147,7 @@
       <!-- column 1 of 3 list items -->
       <div class="col-lg-4">
         <ul class="list-unstyled">
-          <li class="media"> <img class="mr-3" src="file:///Macintosh HD/Users/JJHeffernan/Library/Application Support/Adobe/Dreamweaver 2021/en_US/Configuration/Temp/Assets/eam6646c574.TMP/images/100X125.gif" alt="Generic placeholder image">
-            <div class="media-body">
-              <h5 class="mt-0 mb-1">List-based media object</h5>
-              Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus. </div>
-          </li>
-          <li class="media my-4"> <img class="mr-3" src="file:///Macintosh HD/Users/JJHeffernan/Library/Application Support/Adobe/Dreamweaver 2021/en_US/Configuration/Temp/Assets/eam6646c574.TMP/images/100X125.gif" alt="Generic placeholder image">
-            <div class="media-body">
-              <h5 class="mt-0 mb-1">List-based media object</h5>
-              Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus. </div>
-          </li>
-          <li class="media"> <img class="mr-3" src="file:///Macintosh HD/Users/JJHeffernan/Library/Application Support/Adobe/Dreamweaver 2021/en_US/Configuration/Temp/Assets/eam6646c574.TMP/images/100X125.gif" alt="Generic placeholder image">
+          <li class="media"> <img class="mr-3" src=#f" alt="Generic placeholder image">
             <div class="media-body">
               <h5 class="mt-0 mb-1">List-based media object</h5>
               Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus. </div>
@@ -165,17 +157,7 @@
       <!-- column 2 of 3 -->
       <div class="col-lg-4">
         <ul class="list-unstyled">
-          <li class="media"> <img class="mr-3" src="file:///Macintosh HD/Users/JJHeffernan/Library/Application Support/Adobe/Dreamweaver 2021/en_US/Configuration/Temp/Assets/eam6646c574.TMP/images/100X125.gif" alt="Generic placeholder image">
-            <div class="media-body">
-              <h5 class="mt-0 mb-1">List-based media object</h5>
-              Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus. </div>
-          </li>
-          <li class="media my-4"> <img class="mr-3" src="file:///Macintosh HD/Users/JJHeffernan/Library/Application Support/Adobe/Dreamweaver 2021/en_US/Configuration/Temp/Assets/eam6646c574.TMP/images/100X125.gif" alt="Generic placeholder image">
-            <div class="media-body">
-              <h5 class="mt-0 mb-1">List-based media object</h5>
-              Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus. </div>
-          </li>
-          <li class="media"> <img class="mr-3" src="file:///Macintosh HD/Users/JJHeffernan/Library/Application Support/Adobe/Dreamweaver 2021/en_US/Configuration/Temp/Assets/eam6646c574.TMP/images/100X125.gif" alt="Generic placeholder image">
+          <li class="media"> <img class="mr-3" src="#" alt="Generic placeholder image">
             <div class="media-body">
               <h5 class="mt-0 mb-1">List-based media object</h5>
               Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus. </div>
@@ -185,20 +167,15 @@
       <!-- column 3 of 3 -->
       <div class="col-lg-4">
         <ul class="list-unstyled">
-          <li class="media"> <img class="mr-3" src="file:///Macintosh HD/Users/JJHeffernan/Library/Application Support/Adobe/Dreamweaver 2021/en_US/Configuration/Temp/Assets/eam6646c574.TMP/images/100X125.gif" alt="Generic placeholder image">
+          <li class="media"> <img class="mr-3" src="#" alt="Generic placeholder image">
             <div class="media-body">
               <h5 class="mt-0 mb-1">List-based media object</h5>
               Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus. </div>
           </li>
-          <li class="media my-4"> <img class="mr-3" src="file:///Macintosh HD/Users/JJHeffernan/Library/Application Support/Adobe/Dreamweaver 2021/en_US/Configuration/Temp/Assets/eam6646c574.TMP/images/100X125.gif" alt="Generic placeholder image">
+          <li class="media"> <img class="mr-3" src="#" alt="Generic placeholder image">
             <div class="media-body">
               <h5 class="mt-0 mb-1">List-based media object</h5>
-              Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus. </div>
-          </li>
-          <li class="media"> <img class="mr-3" src="" alt="">
-            <div class="media-body">
-              <h5 class="mt-0 mb-1">List-based media object</h5>
-              Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus. </div>
+              Cras sit amet nibh libero, in gravida nulla. </div>
           </li>
         </ul>
       </div>
