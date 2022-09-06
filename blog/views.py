@@ -22,7 +22,7 @@ class BlogIndexView(ListView):
     template_name = "blog_index.html"
     context_object_name = 'posts'
     # context_object_name = 'blog_list'  # alternative object in ORM
-    # paginate_by = 2
+    # paginate_by = 5
     # ordering = [-date_posted']
 
     # def __str__(self):
@@ -129,7 +129,7 @@ class EditBlog(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 class DeleteBlog(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
     template_name = 'confirm_delete_blog.html'
-    pk_url_kwarg = 'pk'
+    # pk_url_kwarg = 'pk'
     success_url = reverse_lazy('blog:posts')
 
     def test_func(self):
