@@ -30,8 +30,9 @@ class ForumHome(ListView):
 
 # list view of forum topics
 class ForumCatIndexView(ListView):
-    model = ForumPost
+    model = ForumCategory
     template_name = 'forum_topic_index.html'
+    context_object_name = 'category'
 
     class Meta:
         # context
@@ -45,9 +46,29 @@ class ForumCatIndexView(ListView):
         return context
 
 
+# class based view of specific Forum/Subforum view
+class ForumPostIndexView(ListView):
+    template_name = 'forum_index.html'
+    model = ForumPost
+    context_object_name = 'post'
+    post = get_object_or_404(ForumPost)  # might need to add slug here or filter by slug
+
+
+class ForumPostDetailView(DetailView):
+    template_name = 'forum_detail.html'
+    model = ForumPost
+    context_object_name = 'post'
+    post = get_object_or_404(ForumPost)
+
+    class Meta:
+        pass
+
+
+@login_required
 class CreateForumCategory(CreateView):
     model = ForumCategory
     template_name = 'create_forum_topic'
+    context_object_name = 'category'
 
     class Meta:
         # context
@@ -60,8 +81,11 @@ class CreateForumCategory(CreateView):
         return context
 
 
+@login_required
 class CreateSubForum(CreateView):
     model = SubForum
+    template_name = 'create_subforum'
+    context_object_name = 'subforum'
     # requires admin permission
 
     def get_context_data(self, **kwargs):
@@ -71,31 +95,20 @@ class CreateSubForum(CreateView):
         return context
 
 
+@login_required
 class CreateForumPost(CreateView):
-    # requires login
-    # should abstract out to another class or function view
+    model = ForumPost
+    template_name = 'create_forum_post'
+    context_object_name = 'post'
+    forms = ('comment_form', 'reply_form')
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)  # calls base implementation
         # add queryset
         context['forum_list'] = ForumPost.objects.all()
         return context
 
-
-# class based view of specific Forum/Subforum view
-class ForumPostIndexView(ListView):
-    template_name = 'forum_index.html'
-    model = ForumPost
-    post = get_object_or_404(ForumPost)  # might need to add slug here or filter by slug
-
-
-class ForumPostDetailView(DetailView):
-    template_name = 'forum_detail.html'
-    model = ForumPost
-    post = get_object_or_404(ForumPost)
-
-    class Meta:
-        pass
-
+    # this isn't functional implementation, just a code reminder to make forms
     def comment_form(self, request):
         pass
 
