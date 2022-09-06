@@ -78,9 +78,11 @@ class Post(models.Model):  # blog style post, different from project or forum po
 class Comment(models.Model):
     author = models.CharField(max_length=60)  # length of author comment name on post
     body = models.TextField()
-    created_on = models.DateTimeField(auto_now_add=True) # adds comment timestamp
+    # eventually replace with tinyMCE field
+    created_on = models.DateTimeField(auto_now_add=True)  # adds comment timestamp
     last_modified = models.DateTimeField(auto_now=True)
-    post = models.ForeignKey('Post', on_delete=models.CASCADE)
+    post = models.ForeignKey('Post', on_delete=models.CASCADE, related_name='comments')
+    # related name ties comments to post
     # ForeignKey Defines many-to-One relationships with our Post class
     # - first arg is model for relationship.
     # - Second is to delete hanging comments on blog post on deletion
@@ -89,5 +91,5 @@ class Comment(models.Model):
     class Meta:
         ordering = ['-created_on']
 
-    # def __str__(self):
-    #     return self.post
+    def __str__(self):
+        return 'Comment {} by {}'.format(self.body, self.author).encode('utf-8')
