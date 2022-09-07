@@ -23,7 +23,7 @@ class Category(models.Model):
 
 
 # BLOG FORUM POST
-class BlogPost(models.Model):  # blog style post, different from project or forum post
+class Post(models.Model):  # blog style post, different from project or forum post
     """
     this is the Database model for a Blog-style post on the web app.
     This is delivered differently, still uses Bootstrap like projects.
@@ -81,7 +81,7 @@ class Comment(models.Model):
     # eventually replace with tinyMCE field
     created_on = models.DateTimeField(auto_now_add=True)  # adds comment timestamp
     last_modified = models.DateTimeField(auto_now=True)
-    post = models.ForeignKey('BlogPost', on_delete=models.CASCADE, related_name='comments')
+    post = models.ForeignKey('Post', on_delete=models.CASCADE, related_name='comments')
     # related name ties comments to post
     # ForeignKey Defines many-to-One relationships with our Post class
     # - first arg is model for relationship.

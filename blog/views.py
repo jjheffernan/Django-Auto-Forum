@@ -10,7 +10,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 # local namespace imports
-from blog.models import BlogPost, Comment
+from blog.models import Post, Comment
 from blog.forms import CommentForm
 
 
@@ -20,7 +20,7 @@ from blog.forms import CommentForm
 class BlogIndexView(ListView):
 
     # declare variables here
-    model = BlogPost
+    model = Post
     template_name = "blog_index.html"
     context_object_name = 'posts'
     # context_object_name = 'blog_list'  # alternative object in ORM
@@ -39,11 +39,12 @@ class BlogIndexView(ListView):
 
 # Category View
 class BlogCategoryView(ListView):
-    model = BlogPost
+    model = Post
     template_name = 'blog_category.html'
     context_object_name = 'posts'
-    # context_object_name = 'blog_cat_list'  # alternative object in ORM
+    # context_object_name = 'categories'  # alternative object in ORM
     # paginate_by = 2
+    # queryset = Post.objects.filter(self.kwargs['category'])
 
     # method override does not work, needs to return category as title
     # def get_queryset(self):
@@ -63,20 +64,20 @@ class BlogCategoryView(ListView):
 
 
 class BlogUserPostView(ListView):
-    model = BlogPost
+    model = Post
     template_name = 'user_posts.html'
     context_object_name = 'posts'
     paginate_by = 5
 
     def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
-        return BlogPost.objects.filter(author=user).order_by('-date_posted')
+        return Post.objects.filter(author=user).order_by('-date_posted')
 
 
 # blog detail view
 class BlogDetailView(DetailView):
 
-    model = BlogPost
+    model = Post
     template_name = "blog_detail.html"
     form = CommentForm()
     # comments = Comment.objects.filter(post=)
@@ -84,13 +85,13 @@ class BlogDetailView(DetailView):
     # pk_url_kwarg = 'custom_pk'
 
     def __str__(self):
-        return BlogPost.title
+        return Post.title
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # context['posts'] = BlogPost.objects.filter(id=self.kwargs.get('id'))
         # context['posts'] = get_object_or_404(BlogPost, pk=self.kwargs.get('pk'))
-        context['posts'] = get_object_or_404(BlogPost, pk=self.kwargs.get('pk'))
+        context['posts'] = get_object_or_404(Post, pk=self.kwargs.get('pk'))
         # context['comments'] = Comment.objects.filter(id=self.kwargs.get('pk'))
         return context
 
@@ -101,7 +102,7 @@ class BlogDetailView(DetailView):
                 comment = Comment(
                     author=form.cleaned_data['author'],
                     body=form.cleaned_data['body'],
-                    post=BlogPost
+                    post=Post
                 )
         # return comment
         return HttpResponse
@@ -111,7 +112,7 @@ class BlogDetailView(DetailView):
 # Create New Blog Post
 # test_func is for UserPassesTestMixin, but is redundant since element is not shown. Security rework here later
 class AddBlog(LoginRequiredMixin, UserPassesTestMixin, CreateView):
-    model = BlogPost
+    model = Post
     template_name = 'create_blog.html'
     fields = '__all__'
     # success_url = reverse_lazy('blog/index')  # fixed syntax. correct redirect to new post url
@@ -147,7 +148,7 @@ class AddBlog(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
 # Edit Existing Blog Post
 class EditBlog(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    model = BlogPost
+    model = Post
     template_name = 'edit_blog.html'
     fields = '__all__'
     pk_url_kwarg = 'pk'
@@ -158,7 +159,7 @@ class EditBlog(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return super().form_valid(form)
 
     def test_func(self):
-        post = self.get_object(BlogPost)
+        post = self.get_object(Post)
         if self.request.user == post.author:
             return True
         return False
@@ -166,7 +167,7 @@ class EditBlog(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 # Delete Existing Blog Post
 class DeleteBlog(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-    model = BlogPost
+    model = Post
     template_name = 'confirm_delete_blog.html'
     # pk_url_kwarg = 'pk'
     success_url = reverse_lazy('blog:posts')

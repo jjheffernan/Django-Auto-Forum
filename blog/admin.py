@@ -40,7 +40,7 @@ class CommentAdmin(admin.ModelAdmin):
 
 
 # Registers file to site
-admin.site.register(BlogPost, PostAdmin)
+admin.site.register(Post, PostAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Comment, CommentAdmin)
 

@@ -4,14 +4,14 @@ from django import forms
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
 # local namespace imports
-from blog.models import BlogPost
+from blog.models import Post
 
 
 # Blog post edit form
 class BlogPostForm(forms.ModelForm):
     # see models.py for fields
     class Meta:
-        model = BlogPost
+        model = Post
         fields = '__all__'
 
 
@@ -28,7 +28,7 @@ class CommentForm(forms.Form):
     ))
 
     class Meta:
-        model = BlogPost
+        model = Post
         fields = ('post', 'author')
 
     # def get_context_data(self, **kwargs):
