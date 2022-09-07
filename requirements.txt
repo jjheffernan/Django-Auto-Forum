@@ -1,5 +1,5 @@
 asgiref==3.5.2
-backports.zoneinfo==0.2.1
+
 boto3==1.24.65
 botocore==1.27.65
 dj-database-url==1.0.0
@@ -14,6 +14,7 @@ django-tinymce==3.5.0
 gunicorn==20.1.0
 jmespath==1.0.1
 Pillow==9.2.0
+psycopg2-binary==2.9.3
 psycopg2==2.9.3
 python-dateutil==2.8.2
 s3transfer==0.6.0

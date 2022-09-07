@@ -1,10 +1,12 @@
 # blog/views.py
 
 # django imports
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.http import HttpResponse
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.contrib import messages
+from django.contrib.auth import authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 # local namespace imports
@@ -22,7 +24,7 @@ class BlogIndexView(ListView):
     template_name = "blog_index.html"
     context_object_name = 'posts'
     # context_object_name = 'blog_list'  # alternative object in ORM
-    # paginate_by = 2
+    # paginate_by = 5
     # ordering = [-date_posted']
 
     # def __str__(self):
@@ -31,7 +33,7 @@ class BlogIndexView(ListView):
 
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
-    #     context['posts'] = Post.objects.all()
+    #     context['posts'] = BlogPost.objects.all()
     #     return context
 
 
@@ -40,24 +42,25 @@ class BlogCategoryView(ListView):
     model = Post
     template_name = 'blog_category.html'
     context_object_name = 'posts'
-    # context_object_name = 'blog_cat_list'  # alternative object in ORM
+    # context_object_name = 'categories'  # alternative object in ORM
     # paginate_by = 2
+    # queryset = Post.objects.filter(self.kwargs['category'])
 
     # method override does not work, needs to return category as title
     # def get_queryset(self):
     #     content = {
     #         'cat': self.kwargs['category'],
-    #         'posts': Post.objects.filter(category__name=self.kwargs['category']).filter(status='published')
+    #         'posts': BlogPost.objects.filter(category__name=self.kwargs['category']).filter(status='published')
     #     }
-    #     return Post.objects.filter(blog_category__icontains=self.kwargs.get('categories'))
+    #     return BlogPost.objects.filter(blog_category__icontains=self.kwargs.get('categories'))
     #     return content
     # when not overwritten, site displays but without header
 
     # may need to add get_context_data
     # def get_context_data(self, *args, **kwargs):
     #     context = super().get_context_data(**kwargs)
-    #     # context['category'] = get_object_or_404(Post, category=self.kwargs.get('category'))
-    #     context['posts'] = get_object_or_404(Post, pk=self.kwargs.get('pk'))
+    #     # context['category'] = get_object_or_404(BlogPost, category=self.kwargs.get('category'))
+    #     context['posts'] = get_object_or_404(BlogPost, pk=self.kwargs.get('pk'))
 
 
 class BlogUserPostView(ListView):
@@ -77,6 +80,7 @@ class BlogDetailView(DetailView):
     model = Post
     template_name = "blog_detail.html"
     form = CommentForm()
+    # comments = Comment.objects.filter(post=)
     context_object_name = 'post'
     # pk_url_kwarg = 'custom_pk'
 
@@ -85,25 +89,61 @@ class BlogDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # context['posts'] = Post.objects.filter(id=self.kwargs.get('id'))
+        # context['posts'] = BlogPost.objects.filter(id=self.kwargs.get('id'))
+        # context['posts'] = get_object_or_404(BlogPost, pk=self.kwargs.get('pk'))
         context['posts'] = get_object_or_404(Post, pk=self.kwargs.get('pk'))
+        # context['comments'] = Comment.objects.filter(id=self.kwargs.get('pk'))
         return context
 
-    def post(self, request):
-        Comment.object.create()
+    def post(self, request, pk):
+        if request.method == 'POST':
+            form = CommentForm(request.POST)
+            if form.is_valid():
+                comment = Comment(
+                    author=form.cleaned_data['author'],
+                    body=form.cleaned_data['body'],
+                    post=Post
+                )
+        # return comment
+        return HttpResponse
 
 
 # CRUD method classes for Blog Posts
 # Create New Blog Post
-class AddBlog(LoginRequiredMixin, CreateView):
+# test_func is for UserPassesTestMixin, but is redundant since element is not shown. Security rework here later
+class AddBlog(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Post
     template_name = 'create_blog.html'
     fields = '__all__'
-    success_url = reverse_lazy('blog:posts')  # unsure if correct syntax, check docs
+    # success_url = reverse_lazy('blog/index')  # fixed syntax. correct redirect to new post url
+
+    # def get_success_url(self):
+    #     messages.success(
+    #         self.request, 'Your Post has been Created'
+    #     )
+    #     return reverse_lazy('blog/index')
 
     def form_valid(self, form):
         form.instance.author = self.request.user
+        blog_object = form.save(commit=False)
+        blog_object.author = self.request.user
+        # obj.slug = slugify(form.cleaned_data['title'])
         return super().form_valid(form)
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #
+    #     return context
+
+    def test_func(self):
+        # user = authenticate(username=self.request.user.username)
+        user = self.request.user.is_authenticated
+        if user is not False:  # FIX THIS IMPLEMENTATION GOOFBALL
+            return True
+            # A backend authenticated the credentials
+        return False
+        # add redirect to login here
+        # No backend authenticated the credentials
 
 
 # Edit Existing Blog Post
@@ -119,7 +159,7 @@ class EditBlog(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return super().form_valid(form)
 
     def test_func(self):
-        post = self.get_object()
+        post = self.get_object(Post)
         if self.request.user == post.author:
             return True
         return False
@@ -129,7 +169,7 @@ class EditBlog(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 class DeleteBlog(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
     template_name = 'confirm_delete_blog.html'
-    pk_url_kwarg = 'pk'
+    # pk_url_kwarg = 'pk'
     success_url = reverse_lazy('blog:posts')
 
     def test_func(self):
@@ -142,11 +182,11 @@ class DeleteBlog(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 # legacy function based views
 
 # def blog_index(request):
-#     posts = Post.objects.all().order_by('-created_on')  # by changing to class oriented, this can be separated
+#     posts = BlogPost.objects.all().order_by('-created_on')  # by changing to class oriented, this can be separated
 #     # objects is a bad call
 #     # alternative data call
 #     # data = {
-#     #     'posts': Post.objects.all(),
+#     #     'posts': BlogPost.objects.all(),
 #     # }
 #     context = {
 #         'posts': posts,
@@ -156,7 +196,7 @@ class DeleteBlog(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 # def blog_category(request, category):
 #     # pull from db
-#     posts = Post.objects.filter(
+#     posts = BlogPost.objects.filter(
 #         categories__name__contains=category
 #     ).order_by('-created_on')
 #     # define context
@@ -169,9 +209,9 @@ class DeleteBlog(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 # def blog_detail(request, pk):
 #     # object fetch from Post model, by private key for page
-#     post = Post.objects.get(pk=pk)
+#     post = BlogPost.objects.get(pk=pk)
 #     # alternative view method
-#     # post = get_object_or_404(Post, id=pk)
+#     # post = get_object_or_404(BlogPost, id=pk)
 #     # alternative data method (dict)
 #     # data = {
 #     #     'post': post,

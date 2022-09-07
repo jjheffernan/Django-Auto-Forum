@@ -4,7 +4,7 @@
 {% load static %}
 
 {% block page_content %}
-Hello, {{ user_profile.username|default:'Guest' }}!
+Hello, {{ user_profile.username | default:'Guest' }}!
 
 <div>
     {% if user.is_authenticated %}

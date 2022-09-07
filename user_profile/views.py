@@ -5,11 +5,11 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.urls import reverse
-from django.views.generic import View, TemplateView
+from django.urls import reverse, reverse_lazy
+from django.views.generic import View, TemplateView, CreateView
 
 # local imports
-from user_profile.forms import CustomUserCreationForm, UserUpdateForm, ProfileUpdateForm
+from user_profile.forms import *
 from user_profile.models import Profile
 
 
@@ -21,7 +21,8 @@ User = get_user_model()
 # dashboard view (class based)
 @login_required
 class ProfileDashboard(TemplateView):
-    template_name = 'login_dashboard.html'
+    template_name = 'user_dashboard.html'
+    model = User
 
 
 # dashboard view (function based)
@@ -31,29 +32,11 @@ def dashboard(request):
 
 # THIS LENDS ITSELF VERY NICELY TO CBVs
 # START HERE
-class RegisterProfile(View):
-    model = Profile
-
-    def get(self, request):
-        return render(request, 'registration/register.html',
-                      {'form': CustomUserCreationForm})
-
-    def post(self, request):
-        form = CustomUserCreationForm(request.POST)
-
-        if form.is_valid():
-            user = form.save(commit=False)  # does not immediately save
-            user.backend = 'django.contrib.auth.backends.ModelBackend'  # a backend associated with user, then saves db
-
-            username = form.cleaned_data.get('username')
-            messages.success(request, f'Account created for {username}!')  # logs the registration on backend/ admin
-
-            user.save()
-            login(request, user)
-            return redirect(reverse('dashboard'))
-        else:
-            form = CustomUserCreationForm()
-        return render(request, 'registration/register.html', {'form': CustomUserCreationForm})
+class RegisterProfile(CreateView):
+    model = User
+    template_name = 'registration/register.html'
+    success_url = reverse_lazy('login_dashboard')
+    form_class = UserRegisterForm
 
 
 def register(request):
@@ -78,10 +61,11 @@ def register(request):
     return render(request, 'registration/register.html', {'form': CustomUserCreationForm})
 
 
-# profile page (classed based)
-class ProfilePage(View):
+# profile page (class based)
+class ProfilePage(TemplateView):
     user_form = UserUpdateForm()
     profile_form = ProfileUpdateForm()
+    template_name = 'profile.html'
 
     context = {
         'user_form': user_form,

@@ -1,3 +1,73 @@
 <!-- user_profile/templates/registration/register.html -->
+{% extends "base.html" %}
 
+{% block title %}Log-in{% endblock %}
 
+{% block page_content%}
+<div class="container-fluid">
+    <div class="row no-gutter">
+        <div class="col-md-6 offset-md-3 bg-light">
+            <div class="login d-flex align-items-center py-5">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-md-12 mx-auto">
+
+                            <form class="account-form p-4 rounded col-lg-10 mx-auto" action="." method="post">
+                                {% csrf_token %}
+                                <p class="h4 mb-2 font-weight-bold">Create an account</p>
+                                <p class="mb-4">After account activation, You are free to post!</p>
+
+                                {% if form.errors %}
+                                <p>Please correct the following errors:</p>
+                                {% for field in form %}
+                                {% if field.errors %}
+                                <div class="alert alert-primary" role="alert">
+                                    {{ field.label }}: {{ field.errors|striptags }}
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+                                {% endif %}
+
+                                <label class="small font-weight-bold">{{ form.username.label }}<span class="text-muted">
+                                        (Required)</span></label>
+                                {{ form.username }}
+                                <label class="small font-weight-bold">{{ form.email.label}}<span class="text-muted">
+                                        (Required)</span></label>
+                                {{ form.email }}
+                                <label class="small font-weight-bold">{{ form.password.label}}<span class="text-muted">
+                                        (Required)</span></label>
+                                {{ form.password1 }}
+                                <small class="form-text text-muted mb-4">
+                                    At least 8 characters and 1 digit
+                                </small>
+                                {{ form.password2 }}
+                                <small class="form-text text-muted mb-4">
+                                    Repeat password
+                                </small>
+
+<!--                                <div class="custom-control custom-checkbox">-->
+<!--                                    <input type="checkbox" class="custom-control-input" id="Newsletter">-->
+<!--                                    <label class="custom-control-label" for="Newsletter">-->
+<!--                                        Subscribe to our newsletter</label>-->
+<!--                                </div>-->
+
+                                <button class="btn btn-dark btn-block py-2 mb-4 mt-5 font-weight-bold"
+                                    type="submit">Register</button>
+
+                                <hr class="mb-3">
+                                <p class="small text-center">By clicking on register, you agree to Blog
+                                    <a href="">Terms of Service</a> and consent to our
+                                    <a href="">Cookie Policy</a> and
+                                    <a href="">Privacy Policy</a>.
+                                    This site is not protected by reCAPTCHA and is a demonstration website
+                                    for learning purposes only.
+                                </p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

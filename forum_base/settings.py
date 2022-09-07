@@ -153,7 +153,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 # Crispy?
-CRISPY_TEMPLATE_PACK = 'boostrap4'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # email server hosting information. Need to expand upon
 # https://docs.djangoproject.com/en/4.1/ref/settings/#std-setting-EMAIL_HOST

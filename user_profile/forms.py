@@ -141,7 +141,7 @@ class ProfileUpdateForm(forms.ModelForm):
         # }
 
 
-class RegistrationForm(forms.ModelForm):
+class UserRegisterForm(forms.ModelForm):  # can also try UserCreationForm
 
     username = forms.CharField(label='Enter Username', min_length=4, max_length=50, help_text='Required')
     email = forms.EmailField(max_length=100, help_text='Required',
@@ -154,9 +154,8 @@ class RegistrationForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'first_name')
-        # fields = ['username', 'email', 'password1', 'password2']
-
+        # fields = ('username', 'email', 'first_name')
+        fields = ['username', 'email', 'password1', 'password2']
 
     def clean_username(self):
         username = self.cleaned_data['username'].lower()
@@ -187,7 +186,7 @@ class RegistrationForm(forms.ModelForm):
              'placeholder': 'Email',
              'name': 'email',
              'id': 'id_email'})
-        self.fields['password'].widget.attrs.update(
+        self.fields['password1'].widget.attrs.update(
             {'class': 'form-control',
              'placeholder': 'Password'})
         self.fields['password2'].widget.attrs.update(

@@ -8,22 +8,116 @@ from django.contrib.auth.models import User
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 # local namespace imports
-from discuss_forum.models import Author, ForumCategory, ForumPost, ForumComment, Reply
+from discuss_forum.models import *
 from blog.models import Category
 from discuss_forum.forms import *
 
 
 # Create your views here.
 # forum home view (class based)
-class ForumHome(TemplateView):
+class ForumHome(ListView):
     model = ForumPost
-    template_name = 'forum_home.html'
+    template_name = 'forum_index.html'
     context_object_name = 'forum_posts'
+    # queryset = ForumPost.objects.all()
 
-    # def get_context_data(self, **kwargs):
-    #     return
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)  # calls base implementation
+        # add queryset
+        context['forum_list'] = ForumPost.objects.all()
+        return context
 
 
+# list view of forum topics
+class ForumCatIndexView(ListView):
+    model = ForumCategory
+    template_name = 'forum_topic_index.html'
+    context_object_name = 'category'
+
+    class Meta:
+        # context
+        ordering = []
+        pass
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)  # calls base implementation
+        # add queryset
+        context['forum_list'] = ForumPost.objects.all()
+        return context
+
+
+# class based view of specific Forum/Subforum view
+class ForumPostIndexView(ListView):
+    template_name = 'forum_index.html'
+    model = ForumPost
+    context_object_name = 'post'
+    # post = get_object_or_404(ForumPost)  # might need to add slug here or filter by slug
+
+
+class ForumPostDetailView(DetailView):
+    template_name = 'forum_detail.html'
+    model = ForumPost
+    context_object_name = 'post'
+    # post = get_object_or_404(ForumPost)
+
+    class Meta:
+        pass
+
+
+@login_required
+class CreateForumCategory(CreateView):
+    model = ForumCategory
+    template_name = 'create_forum_topic'
+    context_object_name = 'category'
+
+    class Meta:
+        # context
+        pass
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)  # calls base implementation
+        # add queryset
+        context['forum_list'] = ForumPost.objects.all()
+        return context
+
+
+@login_required
+class CreateSubForum(CreateView):
+    model = SubForum
+    template_name = 'create_subforum'
+    context_object_name = 'subforum'
+    # requires admin permission
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)  # calls base implementation
+        # add queryset
+        context['forum_list'] = ForumPost.objects.all()
+        return context
+
+
+@login_required
+class CreateForumPost(CreateView):
+    model = ForumPost
+    template_name = 'create_forum_post'
+    context_object_name = 'post'
+    forms = ('comment_form', 'reply_form')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)  # calls base implementation
+        # add queryset
+        context['forum_list'] = ForumPost.objects.all()
+        return context
+
+    # this isn't functional implementation, just a code reminder to make forms
+    def comment_form(self, request):
+        pass
+
+    def reply_form(self, request):
+        pass
+
+
+# - function based views (legacy) -
+# forum home page view, does not show posts or topics
 def forum_home(request):
     forums = Category.objects.all()
     # Maybe try get_list_or_404()
@@ -49,8 +143,32 @@ def forum_home(request):
     return render(request, 'forum_home.html', context)
 
 
+# forum posts index view, migrated from blog
+def posts(request, slug):
+
+    category = get_object_or_404(Category, slug=slug)
+    posts = ForumPost.objects.filter(approved=True, categories=category)
+    paginator = Paginator(posts, 5)
+    page = request.GET.get("page")
+
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+
+    context = {
+        'posts': posts,
+        'forum': category,
+        # 'title': ,
+    }
+
+    return render(request, 'posts.html', context)
+
+
 # detail view of forums
-def forum_detail(request, slug):
+def forum_post_detail(request, slug):
     post = get_object_or_404(ForumPost, slug=slug)
 
     # if statements. will turn into def when swapping to CBVs
@@ -77,29 +195,6 @@ def forum_detail(request, slug):
     # update_views(request, post)
 
     return render(request, 'detail.html', context)
-
-
-def posts(request, slug):
-
-    category = get_object_or_404(Category, slug=slug)
-    posts = ForumPost.objects.filter(approved=True, categories=category)
-    paginator = Paginator(posts, 5)
-    page = request.GET.get("page")
-
-    try:
-        posts = paginator.page(page)
-    except PageNotAnInteger:
-        posts = paginator.page(1)
-    except EmptyPage:
-        posts = paginator.page(paginator.num_pages)
-
-    context = {
-        'posts': posts,
-        'forum': category,
-        # 'title': ,
-    }
-
-    return render(request, 'posts.html', context)
 
 
 @login_required

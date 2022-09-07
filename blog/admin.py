@@ -19,6 +19,20 @@ class CategoryAdmin(admin.ModelAdmin):
     pass
 
 
+# register Comments
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('author', 'body', 'post', 'created_on')
+    # potential additional fields: 'active', 'status'
+    # search_fields = ()
+
+    def approve_comments(self, request, queryset):
+        queryset.update(active=False)
+        # return
+
+    def hide_comments(self, request, queryset):
+        queryset.update(active=False)
+
+
 # this is an alternative method, should generalize all post methods
 # @admin.register(Post)
 # class BlogAdmin(admin.ModelAdmin):
@@ -28,4 +42,6 @@ class CategoryAdmin(admin.ModelAdmin):
 # Registers file to site
 admin.site.register(Post, PostAdmin)
 admin.site.register(Category, CategoryAdmin)
+admin.site.register(Comment, CommentAdmin)
+
 

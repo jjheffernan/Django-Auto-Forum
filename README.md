@@ -60,6 +60,7 @@ See the *docs* folder for some extra documentation on the specifics of the progr
   - Added django storages (9/2)
   - Added django tinymce (9/2)
   - Added django taggit (9/2)
+  - Added Boto3
   
 
 
