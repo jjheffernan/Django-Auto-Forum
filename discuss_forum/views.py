@@ -51,14 +51,14 @@ class ForumPostIndexView(ListView):
     template_name = 'forum_index.html'
     model = ForumPost
     context_object_name = 'post'
-    post = get_object_or_404(ForumPost)  # might need to add slug here or filter by slug
+    # post = get_object_or_404(ForumPost)  # might need to add slug here or filter by slug
 
 
 class ForumPostDetailView(DetailView):
     template_name = 'forum_detail.html'
     model = ForumPost
     context_object_name = 'post'
-    post = get_object_or_404(ForumPost)
+    # post = get_object_or_404(ForumPost)
 
     class Meta:
         pass
