@@ -9,3 +9,4 @@ The problem is that PostgreSQL requires a separate spin-up, and the manner that 
 ### Fixing the Problem
 **The Packages that cause the build error are psycopg2, and backports.zoneinfo**
 
+backports.zoneinfo==0.2.1;python_version<"3.9"
